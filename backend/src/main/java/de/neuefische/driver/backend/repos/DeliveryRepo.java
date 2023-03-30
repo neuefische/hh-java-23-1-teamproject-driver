@@ -10,8 +10,13 @@ import java.util.Map;
 
 @Repository
 public class DeliveryRepo {
-    private final Map<String, Delivery> deliveries = new HashMap();
+    private final Map<String, Delivery> deliveries;
 
+    public DeliveryRepo() {
+        Map<String, Delivery> deliveryMap = new HashMap<>();
+        deliveryMap.put("1", new Delivery("1234", "first order"));
+        this.deliveries = deliveryMap;
+    }
 
     public List<Delivery> getDeliveries() {
         return new ArrayList<>(deliveries.values());
