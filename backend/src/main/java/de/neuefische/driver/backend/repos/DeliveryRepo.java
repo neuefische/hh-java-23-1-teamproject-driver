@@ -15,6 +15,7 @@ public class DeliveryRepo {
     public DeliveryRepo() {
         Map<String, Delivery> deliveryMap = new HashMap<>();
         deliveryMap.put("1", new Delivery("1234", "first order"));
+        deliveryMap.put("2", new Delivery("6789", "second order"));
         this.deliveries = deliveryMap;
     }
 
