@@ -1,5 +1,3 @@
-
-import './Header.css'
 import {createTheme, ThemeProvider, Typography} from "@mui/material";
 export default function Header(){
     const theme = createTheme({
@@ -9,7 +7,7 @@ export default function Header(){
                 color: '#e0e0e0',
                 textAlign: "center",
                 padding: "1rem",
-                marginBottom: "0.8rem",
+                marginBottom: "0.7rem",
                 backgroundColor: "#ff6d00",
             }}})
     return (

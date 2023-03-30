@@ -23,10 +23,10 @@ function App() {
     }
 
     return (
-        <div className="App">
+        <div>
             <Header/>
             <Container maxWidth="lg">
-                <Box sx={{ bgcolor: '#efebe9', height: '100vh'}}>
+                <Box sx={{bgcolor: '#efebe9', height: '100vh'}}>
                     <Gallery deliveries={deliveries}/>
                 </Box>
             </Container>
