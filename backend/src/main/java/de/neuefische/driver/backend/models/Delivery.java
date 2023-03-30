@@ -4,7 +4,6 @@ import java.util.List;
 
 public record Delivery(
         String id,
-        List<String> order,
-        String customer
+        String title
 ) {
 }
