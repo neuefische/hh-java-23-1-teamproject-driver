@@ -28,7 +28,7 @@ public class DeliveryService {
     public Delivery getDeliveryById(String id) {
         Delivery requestedDelivery = deliveryRepo.getDeliveryById(id);
         if(requestedDelivery == null){
-            throw new NoSuchElementException("No Delivery with ID" + id);
+            throw new NoSuchElementException("No Delivery with ID " + id);
         }
         return requestedDelivery;
     }
