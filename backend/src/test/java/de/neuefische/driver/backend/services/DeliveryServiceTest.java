@@ -18,7 +18,12 @@ class DeliveryServiceTest {
     IdService idService = mock(IdService.class);
     DeliveryRepo deliveryRepo = mock(DeliveryRepo.class);
 
+    private final String testIdOne = "1";
 
+    private Delivery createTestDeliveryInstance() {
+
+        return new Delivery(testIdOne, "pizza");
+    }
 
     @BeforeEach
     void init() {
@@ -38,7 +43,7 @@ class DeliveryServiceTest {
 
     @Test
     void getDeliveries_shouldReturn_listOfDeliveries() {
-        Delivery test = new Delivery("1234", "order1");
+        Delivery test = createTestDeliveryInstance();
         Mockito.when(deliveryRepo.getDeliveries())
                 .thenReturn(new ArrayList<>(List.of(test)));
 
@@ -46,6 +51,22 @@ class DeliveryServiceTest {
 
         verify(deliveryRepo).getDeliveries();
         List<Delivery> expected = new ArrayList<>(List.of(test));
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void addDelivery_ShouldReturnAddedDelivery() {
+        Delivery toAdd = createTestDeliveryInstance();
+        Mockito.when(deliveryRepo.addDelivery(toAdd))
+                .thenReturn(toAdd);
+        Mockito.when(idService.createRandomId())
+                .thenReturn(testIdOne);
+
+        Delivery actual = deliveryService.addDelivery(toAdd);
+
+        verify(deliveryRepo).addDelivery(toAdd);
+        verify(idService).createRandomId();
+        Delivery expected = createTestDeliveryInstance();
         assertEquals(expected, actual);
     }
 }
