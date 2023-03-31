@@ -10,6 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.NoSuchElementException;
+
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -30,16 +33,18 @@ class DeliveryIntegrationTest {
                 """));
     }
 
-    /*  @Test
-      void getDeliveryById_shouldThrowException_whenInvalidId() throws Exception {
-          try {
-              mockMvc.perform(get("/api/deliveries/123"));
-          } catch (NoSuchElementException e) {
-              return;
-          }
-          fail();
-      }
-  */
+    @Test
+    void getDeliveryById_shouldThrowException_whenInvalidId() {
+        try {
+            mockMvc.perform(get("/api/deliveries/123"));
+            fail();
+        } catch (Exception e) {
+            if (!(e.getCause() instanceof NoSuchElementException)) {
+                fail();
+            }
+        }
+    }
+
     @Test
     @DirtiesContext
     void addDelivery_shouldReturnAddedDelivery() throws Exception {
