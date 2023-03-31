@@ -1,0 +1,18 @@
+package de.neuefische.driver.backend.repos;
+
+import de.neuefische.driver.backend.models.Delivery;
+import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Repository
+public class DeliveryRepo {
+    private final Map<String, Delivery> deliveries = new HashMap<>();
+
+    public List<Delivery> getDeliveries() {
+        return new ArrayList<>(deliveries.values());
+    }
+}
