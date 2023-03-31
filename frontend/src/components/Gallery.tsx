@@ -1,7 +1,7 @@
-import Card from "./DeliveryCard";
 import {DeliveryModel} from "../models/DeliveryModel";
 import './Gallery.css';
 import {Typography} from "@mui/material";
+import DeliveryCard from "./DeliveryCard";
 
 type GalleryProps = {
     deliveries: DeliveryModel[];
@@ -15,7 +15,7 @@ export default function Gallery(props: GalleryProps) {
             <ul className="card-container">
                 {props.deliveries.map((delivery) => {
                     return (
-                        <Card key={delivery.id} delivery={delivery}/>)
+                        <DeliveryCard key={delivery.id} delivery={delivery}/>)
                 })}
             </ul>
         </div>

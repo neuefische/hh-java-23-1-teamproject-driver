@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import './App.css';
 import {DeliveryModel} from "./models/DeliveryModel";
 import Gallery from "./components/Gallery";
 import axios from "axios";
@@ -15,7 +14,7 @@ function App() {
     }, [])
 
     function loadDeliveries() {
-        axios.get("api/deliveries")
+        axios.get("/api/deliveries")
             .then((response) => {
                 setDeliveries(response.data)
 
