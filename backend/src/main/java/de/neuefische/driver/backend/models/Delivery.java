@@ -4,4 +4,7 @@ public record Delivery(
         String id,
         String title
 ) {
+    public Delivery withId(String id) {
+        return new Delivery(id, title);
+    }
 }
