@@ -1,6 +1,14 @@
-.card {
+.details_card {
+    display: flex;
+    flex-direction: column;
     padding: 0.3rem;
     background-color: #efebe9;
-    margin:  0.8rem 0.8rem;
+    margin: 0.8rem 0.8rem;
     border-radius: 5px;
+}
+
+.details_button {
+    align-self: end;
+    width: fit-content;
+
 }

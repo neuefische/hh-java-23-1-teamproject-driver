@@ -11,10 +11,10 @@ type CardProps = {
 export default function DeliveryCard(props: CardProps) {
     const navigate = useNavigate();
     return (
-        <Card variant="outlined" className="card">
+        <Card variant="outlined" className="details_card">
             <p>Title: {props.delivery.title}</p>
             <small> ID: {props.delivery.id}</small>
-            <Button variant="outlined" onClick={() => navigate(`/details/${props.delivery.id}`)}>Details</Button>
+            <Button className="details_button" variant="outlined" onClick={() => navigate(`/details/${props.delivery.id}`)}>Details</Button>
         </Card>
     )
 }

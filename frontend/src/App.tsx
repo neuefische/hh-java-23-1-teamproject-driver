@@ -2,12 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {DeliveryModel, NewDeliveryModel} from "./models/DeliveryModel";
 import Gallery from "./components/Gallery";
 import axios from "axios";
+import './App.css'
 import Header from "./components/Header";
-import {Box, Container} from '@mui/material';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {Box, Container, Typography} from '@mui/material';
+import {BrowserRouter, NavLink, Route, Routes} from "react-router-dom";
 import AddDelivery from "./components/AddDelivery";
 import Navigation from "./components/Navigation";
 import DeliveryDetails from "./components/DeliveryDetails";
+
 
 function App() {
     const [deliveries, setDeliveries] = useState<DeliveryModel[]>([])
@@ -37,25 +39,46 @@ function App() {
                 <Header/>
                 <Routes>
                     <Route path="/"
-                           element={<p>Welcome you freaks</p>}/>
+                           element={
+                               <Container maxWidth="lg">
+                                   <Box sx={{bgcolor: '#efebe9', p: "1rem", pb: "3rem", textAlign: "center"}}>
+                                       <Typography variant="h2">Welcome you freaks</Typography>
+                                       <NavLink className="start-link" to="/home">Click to Start...</NavLink>
+                                   </Box>
+                               </Container>
+                           }/>
                     <Route path="/home"
                            element={
                                <Container maxWidth="lg">
-                                   <Box sx={{bgcolor: '#efebe9', height: '100vh'}}>
+                                   <Box sx={{bgcolor: '#efebe9', pb: "3rem"}}>
                                        <Gallery deliveries={deliveries}/>
                                    </Box>
                                </Container>
                            }
                     />
                     <Route path="/add"
-                           element={<AddDelivery addDelivery={addDelivery}/>}/>
+                           element={
+                               <Container maxWidth="lg">
+                                   <Box sx={{bgcolor: '#efebe9', p: "1rem", pb: "3rem"}}>
+                                       <AddDelivery addDelivery={addDelivery}/>
+                                   </Box>
+                               </Container>
+                           }
+                    />
                     <Route path="/details/:id"
-                           element={<DeliveryDetails/>}/>
+                           element={
+                               <Container maxWidth="lg">
+                                   <Box sx={{bgcolor: '#efebe9', p: "1rem", pb: "3rem"}}>
+                                       <DeliveryDetails/>
+                                   </Box>
+                               </Container>
+                           }/>
                 </Routes>
                 <Navigation/>
             </div>
         </BrowserRouter>
-    );
+    )
+        ;
 }
 
 export default App;

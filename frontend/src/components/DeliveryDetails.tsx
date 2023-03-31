@@ -32,6 +32,7 @@ export default function DeliveryDetails() {
                 <p>Title: {delivery.title}</p>
                 <small>ID: {delivery.id}</small>
             </Card>
-            : <p>{message}</p>
+            :
+            <p>{message}</p>
     )
 }
