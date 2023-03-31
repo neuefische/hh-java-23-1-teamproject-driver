@@ -1,0 +1,17 @@
+.nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 1rem;
+    background-color: #ef6c00;
+
+}
+.nav-links {
+    display: flex;
+    justify-content: space-around;
+}
+.link {
+    text-decoration: none;
+    color: whitesmoke;
+    font-weight: bold;
+}

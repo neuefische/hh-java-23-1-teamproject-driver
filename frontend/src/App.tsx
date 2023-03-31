@@ -7,6 +7,7 @@ import Header from "./components/Header";
 import {Box, Container} from '@mui/material';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import AddDelivery from "./components/AddDelivery";
+import Navigation from "./components/Navigation";
 
 function App() {
     const [deliveries, setDeliveries] = useState<DeliveryModel[]>([])
@@ -49,6 +50,7 @@ function App() {
                     <Route path="/add"
                            element={<AddDelivery addDelivery={addDelivery}/>}/>
                 </Routes>
+                <Navigation/>
             </div>
         </BrowserRouter>
     );

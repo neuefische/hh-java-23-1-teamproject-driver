@@ -15,8 +15,8 @@ import static org.mockito.Mockito.verify;
 
 class DeliveryServiceTest {
     DeliveryService deliveryService;
-    IdService idService = mock(IdService.class);
-    DeliveryRepo deliveryRepo = mock(DeliveryRepo.class);
+    final IdService idService = mock(IdService.class);
+    final DeliveryRepo deliveryRepo = mock(DeliveryRepo.class);
 
     private final String testIdOne = "1";
 
