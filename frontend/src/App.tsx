@@ -5,6 +5,7 @@ import Gallery from "./components/Gallery";
 import axios from "axios";
 import Header from "./components/Header";
 import {Box, Container} from '@mui/material';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 function App() {
     const [deliveries, setDeliveries] = useState<DeliveryModel[]>([])
@@ -23,15 +24,24 @@ function App() {
     }
 
     return (
-        <div>
-            <Header/>
-            <Container maxWidth="lg">
-                <Box sx={{bgcolor: '#efebe9', height: '100vh'}}>
-                    <Gallery deliveries={deliveries}/>
-                </Box>
-            </Container>
-
-        </div>
+        <BrowserRouter>
+            <div>
+                <Header/>
+                <Routes>
+                    <Route path="/"
+                           element={<p>Welcome you freaks</p>}/>
+                    <Route path="/home"
+                           element={
+                               <Container maxWidth="lg">
+                                   <Box sx={{bgcolor: '#efebe9', height: '100vh'}}>
+                                       <Gallery deliveries={deliveries}/>
+                                   </Box>
+                               </Container>
+                           }
+                    />
+                </Routes>
+            </div>
+        </BrowserRouter>
     );
 }
 
