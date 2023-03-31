@@ -17,6 +17,11 @@ public class DeliveryController {
         return deliveryService.getDeliveries();
     }
 
+    @GetMapping("/{id}")
+    public Delivery getDeliveryById(@PathVariable String id){
+        return deliveryService.getDeliveryById(id);
+    }
+
     @PostMapping
     public Delivery addDelivery(@RequestBody Delivery delivery){
         return deliveryService.addDelivery(delivery);

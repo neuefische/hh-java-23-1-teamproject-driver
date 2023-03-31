@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -54,6 +55,32 @@ class DeliveryServiceTest {
         assertEquals(expected, actual);
     }
 
+
+    @Test
+    void getDeliveryById_shouldReturnRequestedDelivery() {
+        Delivery requested = createTestDeliveryInstance();
+
+        Mockito.when(deliveryRepo.getDeliveryById(testIdOne))
+                .thenReturn(requested);
+
+        Delivery actual = deliveryService.getDeliveryById(testIdOne);
+
+        verify(deliveryRepo).getDeliveryById(testIdOne);
+        assertEquals(createTestDeliveryInstance(), actual);
+    }
+
+    @Test
+    void getDeliveryById_shouldThrowException_whenInvalidId(){
+        Mockito.when(deliveryRepo.getDeliveryById(testIdOne))
+                .thenReturn(null);
+        try {
+            deliveryService.getDeliveryById(testIdOne);
+            fail();
+        }catch(NoSuchElementException e){
+            assertTrue(true);
+        }
+        verify(deliveryRepo).getDeliveryById(testIdOne);
+    }
     @Test
     void addDelivery_ShouldReturnAddedDelivery() {
         Delivery toAdd = createTestDeliveryInstance();

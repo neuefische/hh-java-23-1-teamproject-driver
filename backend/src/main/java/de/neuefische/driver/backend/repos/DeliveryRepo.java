@@ -20,4 +20,8 @@ public class DeliveryRepo {
         deliveries.put(deliveryToAdd.id(), deliveryToAdd);
         return deliveryToAdd;
     }
+
+    public Delivery getDeliveryById(String id) {
+        return deliveries.get(id);
+    }
 }
