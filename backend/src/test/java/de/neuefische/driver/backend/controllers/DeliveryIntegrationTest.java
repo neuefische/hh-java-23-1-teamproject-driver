@@ -22,11 +22,9 @@ class DeliveryIntegrationTest {
 
     @Test
     void getDeliveries_shouldReturnEmptyList_whenRepoIsEmpty() throws Exception {
-        mockMvc.perform(get("/api/deliveries"))
-                .andExpect(status().isOk())
-                .andExpect(content().json("""
-                        []
-                        """));
+        mockMvc.perform(get("/api/deliveries")).andExpect(status().isOk()).andExpect(content().json("""
+                []
+                """));
     }
 
 }

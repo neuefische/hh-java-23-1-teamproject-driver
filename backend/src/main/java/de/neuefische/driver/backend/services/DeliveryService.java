@@ -6,19 +6,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
+
 @RequiredArgsConstructor
 public class DeliveryService {
     private final DeliveryRepo deliveryRepo;
+    private final IdService idService;
 
     public List<Delivery> getDeliveries() {
         return deliveryRepo.getDeliveries();
     }
 
     public Delivery addDelivery(Delivery delivery) {
-        String id = UUID.randomUUID().toString();
+        String id = idService.createRandomId();
         Delivery deliveryToAdd = delivery.withId(id);
         return deliveryRepo.addDelivery(deliveryToAdd);
     }

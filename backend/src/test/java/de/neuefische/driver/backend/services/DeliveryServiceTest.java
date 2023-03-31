@@ -14,12 +14,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 class DeliveryServiceTest {
-    DeliveryRepo deliveryRepo = mock(DeliveryRepo.class);
     DeliveryService deliveryService;
+    IdService idService = mock(IdService.class);
+    DeliveryRepo deliveryRepo = mock(DeliveryRepo.class);
+
+
 
     @BeforeEach
     void init() {
-        this.deliveryService = new DeliveryService(deliveryRepo);
+        this.deliveryService = new DeliveryService(deliveryRepo, idService);
     }
 
     @Test
