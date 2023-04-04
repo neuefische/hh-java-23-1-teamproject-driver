@@ -3,11 +3,11 @@ import {NewDeliveryModel} from "../models/DeliveryModel";
 import {Button, TextField, Typography} from "@mui/material";
 import './AddDelivery.css'
 
-type Props = {
+type AddDeliveryProps = {
     addDelivery: (delivery: NewDeliveryModel) => void
 }
-export default function AddDelivery(props: Props) {
-    const [title, setTitle] = useState("")
+export default function AddDelivery(props: AddDeliveryProps) {
+    const [title, setTitle] = useState<string>("")
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()

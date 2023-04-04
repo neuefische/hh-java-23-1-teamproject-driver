@@ -13,6 +13,7 @@ export default function DeliveryDetails() {
         if (id) {
             loadDeliveryById()
         }
+        //eslint-disable-next-line
     }, [id]);
 
     function loadDeliveryById() {
@@ -28,7 +29,7 @@ export default function DeliveryDetails() {
 
     return (
         delivery ?
-            <Card variant="outlined" className="card">
+            <Card variant="outlined" sx={{p: "0.3rem"}}>
                 <p>Title: {delivery.title}</p>
                 <small>ID: {delivery.id}</small>
             </Card>
