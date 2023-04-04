@@ -46,7 +46,7 @@ function App() {
                                        <NavLink className="start-link" to="/home">Click to Start...</NavLink>
                                    </Box>
                                </Container>
-                           }/>lg
+                           }/>
                     <Route path="/home"
                            element={
                                <Container maxWidth="lg">
