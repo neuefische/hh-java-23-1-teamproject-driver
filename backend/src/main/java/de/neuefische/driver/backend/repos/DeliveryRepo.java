@@ -15,4 +15,13 @@ public class DeliveryRepo {
     public List<Delivery> getDeliveries() {
         return new ArrayList<>(deliveries.values());
     }
+
+    public Delivery addDelivery(Delivery deliveryToAdd) {
+        deliveries.put(deliveryToAdd.id(), deliveryToAdd);
+        return deliveryToAdd;
+    }
+
+    public Delivery getDeliveryById(String id) {
+        return deliveries.get(id);
+    }
 }
