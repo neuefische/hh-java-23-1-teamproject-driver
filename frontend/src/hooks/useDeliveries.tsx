@@ -34,5 +34,5 @@ export default function useDeliveries() {
             .catch(reason => console.error(reason))
     }
 
-    return {deliveries, environmentName, loadEnvironmentName, loadDeliveries, addDelivery}
+    return {deliveries, environmentName, addDelivery}
 }

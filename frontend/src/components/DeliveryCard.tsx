@@ -14,7 +14,10 @@ export default function DeliveryCard(props: CardProps) {
         <Card variant="outlined" className="details-card">
             <p>Title: {props.delivery.title}</p>
             <small> ID: {props.delivery.id}</small>
-            <Button className="details-button" variant="outlined" onClick={() => navigate(`/details/${props.delivery.id}`)}>Details</Button>
+            <Button className="details-button" variant="outlined"
+                    onClick={() => navigate(`/details/${props.delivery.id}`)}>Details</Button>
+            <Button className="edit-button" variant="outlined"
+                    onClick={() => navigate(`/edit/${props.delivery.id}`)}>Edit</Button>
         </Card>
     )
 }

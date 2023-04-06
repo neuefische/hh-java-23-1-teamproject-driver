@@ -8,6 +8,7 @@ import AddDelivery from "./components/AddDelivery";
 import Navigation from "./components/Navigation";
 import DeliveryDetails from "./components/DeliveryDetails";
 import useDeliveries from "./hooks/useDeliveries";
+import EditDelivery from "./components/EditDelivery";
 
 function App() {
     const {deliveries, environmentName, addDelivery} = useDeliveries()
@@ -53,6 +54,7 @@ function App() {
                                    </Box>
                                </Container>
                            }/>
+                    <Route path="/update" element={<EditDelivery/>}/>
                 </Routes>
                 <Navigation/>
             </div>
