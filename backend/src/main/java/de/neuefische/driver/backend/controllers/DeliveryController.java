@@ -3,7 +3,9 @@ package de.neuefische.driver.backend.controllers;
 import de.neuefische.driver.backend.models.Delivery;
 import de.neuefische.driver.backend.services.DeliveryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -26,5 +28,15 @@ public class DeliveryController {
     @PostMapping
     public Delivery addDelivery(@RequestBody Delivery delivery) {
         return deliveryService.addDelivery(delivery);
+    }
+
+    @PutMapping("/{id}")
+    public Delivery updateDelivery(@PathVariable String id, @RequestBody Delivery delivery) {
+        if (!id.equals(delivery.id())) {
+            String message = "Id '" + id + "' doesn't match with delivery-id '" + delivery.id() + "'";
+            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, message);
+        }
+        
+        return deliveryService.updateDelivery(delivery);
     }
 }
