@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/deliveries")
@@ -22,7 +23,12 @@ public class DeliveryController {
 
     @GetMapping("/{id}")
     public Delivery getDeliveryById(@PathVariable String id) {
-        return deliveryService.getDeliveryById(id);
+        try {
+            return deliveryService.getDeliveryById(id);
+        }
+        catch (NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @PostMapping
@@ -36,7 +42,7 @@ public class DeliveryController {
             String message = "Id '" + id + "' doesn't match with delivery-id '" + delivery.id() + "'";
             throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, message);
         }
-        
+
         return deliveryService.updateDelivery(delivery);
     }
 }
