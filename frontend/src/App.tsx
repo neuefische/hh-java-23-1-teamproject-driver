@@ -11,7 +11,15 @@ import useDeliveries from "./hooks/useDeliveries";
 import EditDelivery from "./components/EditDelivery";
 
 function App() {
-    const {message, delivery, deliveries, environmentName, loadDeliveryById, addDelivery} = useDeliveries()
+    const {
+        message,
+        delivery,
+        deliveries,
+        environmentName,
+        loadDeliveryById,
+        addDelivery,
+        updateDelivery
+    } = useDeliveries()
 
     return (
         <BrowserRouter>
@@ -57,8 +65,9 @@ function App() {
                                </Container>
                            }/>
                     <Route path="/edit/:id" element={<EditDelivery delivery={delivery}
-                                                                   title={delivery.title}
-                                                                   loadDeliveryById={loadDeliveryById}/>}/>
+                                                                  // title={delivery.title}
+                                                                   loadDeliveryById={loadDeliveryById}
+                                                                   updateDelivery={updateDelivery}/>}/>
                 </Routes>
                 <Navigation/>
             </div>

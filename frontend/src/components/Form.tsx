@@ -11,7 +11,7 @@ export default function Form(props: FormProps) {
     const [title, setTitle] = useState<string>("");
     const navigate = useNavigate();
 
-    const onSubmit = () => {
+   const onSubmit = () => {
         props.handleSubmit(title)
         setTitle("");
     }
@@ -22,8 +22,7 @@ export default function Form(props: FormProps) {
                 required
                 label="Title"
                 id="title"
-                defaultValue={title === "" ? "": title}
-                helperText={title === ""? "": "Make your changes"}
+                value={title}
                 onChange={(event) => setTitle(event.target.value)}
             />
             <ButtonGroup sx={{display: "flex", justifyContent: "space-evenly"}} variant="text"

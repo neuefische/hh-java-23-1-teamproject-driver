@@ -48,5 +48,19 @@ export default function useDeliveries() {
             .catch(reason => console.error(reason))
     }
 
-    return {message, delivery, deliveries, environmentName, loadDeliveryById,  addDelivery}
+    function updateDelivery(id: string, delivery: DeliveryModel){
+        axios.put(`/api/deliveries/${id}`, delivery)
+            .then(response => response.data)
+            .then(data => setDeliveries(prevState => {
+                return prevState.map(currentDelivery => {
+                    if(currentDelivery.id === id){
+                        return data;
+                    }
+                    return currentDelivery;
+                })
+            }))
+            .catch(reason => console.error(reason))
+    }
+
+    return {message, delivery, deliveries, environmentName, loadDeliveryById,  addDelivery, updateDelivery}
 }
