@@ -11,7 +11,7 @@ import useDeliveries from "./hooks/useDeliveries";
 import EditDelivery from "./components/EditDelivery";
 
 function App() {
-    const {deliveries, environmentName, addDelivery} = useDeliveries()
+    const {message, delivery, deliveries, environmentName, loadDeliveryById, addDelivery} = useDeliveries()
 
     return (
         <BrowserRouter>
@@ -31,7 +31,7 @@ function App() {
                     <Route path="/home"
                            element={
                                <Container maxWidth="lg">
-                                   <Box sx={{bgcolor: '#efebe9', pb: "3rem"}}>
+                                   <Box sx={{bgcolor: '#efebe9', pb: "4.5rem"}}>
                                        <Gallery deliveries={deliveries}/>
                                    </Box>
                                </Container>
@@ -50,11 +50,15 @@ function App() {
                            element={
                                <Container maxWidth="lg">
                                    <Box sx={{bgcolor: '#efebe9', p: "1rem", pb: "3rem"}}>
-                                       <DeliveryDetails/>
+                                       <DeliveryDetails message={message}
+                                                        delivery={delivery}
+                                                        loadDeliveryById={loadDeliveryById}/>
                                    </Box>
                                </Container>
                            }/>
-                    <Route path="/update" element={<EditDelivery/>}/>
+                    <Route path="/edit/:id" element={<EditDelivery delivery={delivery}
+                                                                   title={delivery.title}
+                                                                   loadDeliveryById={loadDeliveryById}/>}/>
                 </Routes>
                 <Navigation/>
             </div>

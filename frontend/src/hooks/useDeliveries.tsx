@@ -4,6 +4,10 @@ import axios from "axios";
 
 export default function useDeliveries() {
     const [deliveries, setDeliveries] = useState<DeliveryModel[]>([])
+    const [delivery, setDelivery] = useState<DeliveryModel>({
+        id: "", title:""
+    })
+    const [message, setMessage] = useState("")
     const [environmentName, setEnvironmentName] = useState<string>("");
 
     useEffect(() => {
@@ -26,6 +30,16 @@ export default function useDeliveries() {
             })
             .catch(reason => console.error(reason))
     }
+    function loadDeliveryById(id: string) {
+        axios.get(`/api/deliveries/${id}`)
+            .then((response) => {
+                setDelivery(response.data)
+            })
+            .catch((error) => {
+                console.error(error)
+                setMessage("Delivery not found")
+            })
+    }
 
     function addDelivery(delivery: NewDeliveryModel) {
         axios.post("/api/deliveries", delivery)
@@ -34,5 +48,5 @@ export default function useDeliveries() {
             .catch(reason => console.error(reason))
     }
 
-    return {deliveries, environmentName, addDelivery}
+    return {message, delivery, deliveries, environmentName, loadDeliveryById,  addDelivery}
 }

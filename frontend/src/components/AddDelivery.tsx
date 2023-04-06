@@ -1,6 +1,6 @@
 import {NewDeliveryModel} from "../models/DeliveryModel";
 import {Typography} from "@mui/material";
-import './AddDelivery.css'
+import './Form.css'
 import Form from "./Form";
 
 type AddDeliveryProps = {

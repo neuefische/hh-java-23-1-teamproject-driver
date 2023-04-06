@@ -1,12 +1,15 @@
 import React, {useState} from "react";
-import {Button, TextField} from "@mui/material";
+import {Button, ButtonGroup, TextField} from "@mui/material";
+import './Form.css'
+import {useNavigate} from "react-router-dom";
 
 type FormProps = {
     handleSubmit: (title: string) => void,
     buttonText: string
 }
 export default function Form(props: FormProps) {
-    const [title, setTitle] = useState<string>("")
+    const [title, setTitle] = useState<string>("");
+    const navigate = useNavigate();
 
     const onSubmit = () => {
         props.handleSubmit(title)
@@ -19,10 +22,16 @@ export default function Form(props: FormProps) {
                 required
                 label="Title"
                 id="title"
-                value={title}
+                defaultValue={title === "" ? "": title}
+                helperText={title === ""? "": "Make your changes"}
                 onChange={(event) => setTitle(event.target.value)}
             />
-            <Button className="button" variant="outlined" type="submit">{props.buttonText}</Button>
+            <ButtonGroup sx={{display: "flex", justifyContent: "space-evenly"}} variant="text"
+                         aria-label="text button group">
+                <Button variant="outlined"
+                        onClick={() => navigate(`/home`)}>Back</Button>
+                <Button className="button" variant="contained" type="submit">{props.buttonText}</Button>
+            </ButtonGroup>
         </form>
     )
 }
