@@ -13,10 +13,20 @@ import DeliveryDetails from "./components/DeliveryDetails";
 
 function App() {
     const [deliveries, setDeliveries] = useState<DeliveryModel[]>([])
+    const [environmentName, setEnvironmentName] = useState<string>("");
 
     useEffect(() => {
         loadDeliveries()
+        loadEnvironmentName()
     }, [])
+
+    function loadEnvironmentName() {
+        axios.get("/api/info")
+            .then((response) => {
+                setEnvironmentName(response.data)
+            })
+            .catch(reason => console.error(reason))
+    }
 
     function loadDeliveries() {
         axios.get("/api/deliveries")
@@ -43,6 +53,7 @@ function App() {
                                <Container maxWidth="lg">
                                    <Box sx={{bgcolor: '#efebe9', p: "1rem", pb: "3rem", textAlign: "center"}}>
                                        <Typography variant="h2">Welcome you freaks</Typography>
+                                       <p>{environmentName}</p>
                                        <NavLink className="start-link" to="/home">Click to Start...</NavLink>
                                    </Box>
                                </Container>

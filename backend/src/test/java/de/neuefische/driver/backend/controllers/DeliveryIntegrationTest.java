@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class DeliveryIntegrationTest {
     @Autowired
     MockMvc mockMvc;
@@ -28,7 +29,9 @@ class DeliveryIntegrationTest {
 
     @Test
     void getDeliveries_shouldReturnEmptyList_whenRepoIsEmpty() throws Exception {
-        mockMvc.perform(get("/api/deliveries")).andExpect(status().isOk()).andExpect(content().json("""
+        mockMvc.perform(get("/api/deliveries"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
                 []
                 """));
     }
@@ -46,7 +49,6 @@ class DeliveryIntegrationTest {
     }
 
     @Test
-    @DirtiesContext
     void addDelivery_shouldReturnAddedDelivery() throws Exception {
         mockMvc.perform(post("/api/deliveries")
                         .contentType(MediaType.APPLICATION_JSON)

@@ -15,20 +15,18 @@ public class DeliveryService {
     private final IdService idService;
 
     public List<Delivery> getDeliveries() {
-        return deliveryRepo.getDeliveries();
+        return deliveryRepo.findAll();
     }
 
     public Delivery addDelivery(Delivery delivery) {
         String id = idService.createRandomId();
         Delivery deliveryToAdd = delivery.withId(id);
-        return deliveryRepo.addDelivery(deliveryToAdd);
+        return deliveryRepo.save(deliveryToAdd);
     }
 
     public Delivery getDeliveryById(String id) {
-        Delivery requestedDelivery = deliveryRepo.getDeliveryById(id);
-        if(requestedDelivery == null){
-            throw new NoSuchElementException("No Delivery with ID " + id);
-        }
-        return requestedDelivery;
+        String errorMessage = "Delivery with ID '" + id + "' not found!";
+        return deliveryRepo.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(errorMessage));
     }
 }

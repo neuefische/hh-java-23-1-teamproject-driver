@@ -1,4 +1,5 @@
 package de.neuefische.driver.backend.controllers;
+
 import de.neuefische.driver.backend.models.Delivery;
 import de.neuefische.driver.backend.services.DeliveryService;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +19,12 @@ public class DeliveryController {
     }
 
     @GetMapping("/{id}")
-    public Delivery getDeliveryById(@PathVariable String id){
+    public Delivery getDeliveryById(@PathVariable String id) {
         return deliveryService.getDeliveryById(id);
     }
 
     @PostMapping
-    public Delivery addDelivery(@RequestBody Delivery delivery){
+    public Delivery addDelivery(@RequestBody Delivery delivery) {
         return deliveryService.addDelivery(delivery);
     }
 }

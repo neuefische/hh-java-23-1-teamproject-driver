@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -32,24 +33,24 @@ class DeliveryServiceTest {
 
     @Test
     void getDeliveries_shouldReturnEmptyList_whenRepoIsEmpty() {
-        Mockito.when(deliveryRepo.getDeliveries())
+        Mockito.when(deliveryRepo.findAll())
                 .thenReturn(new ArrayList<>());
 
         List<Delivery> actual = deliveryService.getDeliveries();
 
-        verify(deliveryRepo).getDeliveries();
+        verify(deliveryRepo).findAll();
         assertEquals(new ArrayList<>(), actual);
     }
 
     @Test
     void getDeliveries_shouldReturn_listOfDeliveries() {
         Delivery test = createTestDeliveryInstance();
-        Mockito.when(deliveryRepo.getDeliveries())
+        Mockito.when(deliveryRepo.findAll())
                 .thenReturn(new ArrayList<>(List.of(test)));
 
         List<Delivery> actual = deliveryService.getDeliveries();
 
-        verify(deliveryRepo).getDeliveries();
+        verify(deliveryRepo).findAll();
         List<Delivery> expected = new ArrayList<>(List.of(test));
         assertEquals(expected, actual);
     }
@@ -59,38 +60,41 @@ class DeliveryServiceTest {
     void getDeliveryById_shouldReturnRequestedDelivery() {
         Delivery requested = createTestDeliveryInstance();
 
-        Mockito.when(deliveryRepo.getDeliveryById(testIdOne))
-                .thenReturn(requested);
+        Mockito.when(deliveryRepo.findById(testIdOne))
+                .thenReturn(Optional.of(requested));
 
         Delivery actual = deliveryService.getDeliveryById(testIdOne);
 
-        verify(deliveryRepo).getDeliveryById(testIdOne);
+        verify(deliveryRepo).findById(testIdOne);
         assertEquals(createTestDeliveryInstance(), actual);
     }
 
     @Test
-    void getDeliveryById_shouldThrowException_whenInvalidId(){
-        Mockito.when(deliveryRepo.getDeliveryById(testIdOne))
-                .thenReturn(null);
+    void getDeliveryById_shouldThrowException_whenInvalidId() {
+        Mockito.when(deliveryRepo.findById(testIdOne))
+                .thenThrow(new NoSuchElementException());
+
         try {
             deliveryService.getDeliveryById(testIdOne);
             fail();
-        }catch(NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             assertTrue(true);
         }
-        verify(deliveryRepo).getDeliveryById(testIdOne);
+
+        verify(deliveryRepo).findById(testIdOne);
     }
+
     @Test
     void addDelivery_ShouldReturnAddedDelivery() {
         Delivery toAdd = createTestDeliveryInstance();
-        Mockito.when(deliveryRepo.addDelivery(toAdd))
+        Mockito.when(deliveryRepo.save(toAdd))
                 .thenReturn(toAdd);
         Mockito.when(idService.createRandomId())
                 .thenReturn(testIdOne);
 
         Delivery actual = deliveryService.addDelivery(toAdd);
 
-        verify(deliveryRepo).addDelivery(toAdd);
+        verify(deliveryRepo).save(toAdd);
         verify(idService).createRandomId();
         Delivery expected = createTestDeliveryInstance();
         assertEquals(expected, actual);
