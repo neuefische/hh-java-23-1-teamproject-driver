@@ -1,7 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {DeliveryModel, NewDeliveryModel} from "./models/DeliveryModel";
+import React from 'react';
 import Gallery from "./components/Gallery";
-import axios from "axios";
 import './App.css'
 import Header from "./components/Header";
 import {Box, Container, Typography} from '@mui/material';
@@ -9,39 +7,10 @@ import {BrowserRouter, NavLink, Route, Routes} from "react-router-dom";
 import AddDelivery from "./components/AddDelivery";
 import Navigation from "./components/Navigation";
 import DeliveryDetails from "./components/DeliveryDetails";
-
+import useDeliveries from "./hooks/useDeliveries";
 
 function App() {
-    const [deliveries, setDeliveries] = useState<DeliveryModel[]>([])
-    const [environmentName, setEnvironmentName] = useState<string>("");
-
-    useEffect(() => {
-        loadDeliveries()
-        loadEnvironmentName()
-    }, [])
-
-    function loadEnvironmentName() {
-        axios.get("/api/info")
-            .then((response) => {
-                setEnvironmentName(response.data)
-            })
-            .catch(reason => console.error(reason))
-    }
-
-    function loadDeliveries() {
-        axios.get("/api/deliveries")
-            .then((response) => {
-                setDeliveries(response.data)
-            })
-            .catch(reason => console.error(reason))
-    }
-
-    function addDelivery(delivery: NewDeliveryModel) {
-        axios.post("/api/deliveries", delivery)
-            .then(response => response.data)
-            .then(data => setDeliveries([...deliveries, data]))
-            .catch(reason => console.error(reason))
-    }
+    const {deliveries, environmentName, addDelivery} = useDeliveries()
 
     return (
         <BrowserRouter>
@@ -88,8 +57,7 @@ function App() {
                 <Navigation/>
             </div>
         </BrowserRouter>
-    )
-        ;
+    );
 }
 
 export default App;
