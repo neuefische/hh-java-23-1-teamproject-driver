@@ -64,15 +64,20 @@ function App() {
                                    </Box>
                                </Container>
                            }/>
-                    <Route path="/edit/:id" element={<EditDelivery delivery={delivery}
-                                                                  // title={delivery.title}
-                                                                   loadDeliveryById={loadDeliveryById}
-                                                                   updateDelivery={updateDelivery}/>}/>
+                    <Route path="/edit/:id" element={
+                        <Container maxWidth="lg">
+                            <Box sx={{bgcolor: '#efebe9', p: "1rem", pb: "3rem"}}>
+                                <EditDelivery delivery={delivery}
+                                    // title={delivery.title}
+                                              loadDeliveryById={loadDeliveryById}
+                                              updateDelivery={updateDelivery}/></Box>
+                        </Container>}/>
                 </Routes>
                 <Navigation/>
             </div>
         </BrowserRouter>
-    );
+    )
+        ;
 }
 
 export default App;

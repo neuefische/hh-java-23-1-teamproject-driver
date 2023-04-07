@@ -5,13 +5,13 @@ import {useNavigate} from "react-router-dom";
 
 type FormProps = {
     handleSubmit: (title: string) => void,
-    buttonText: string
+    buttonText: string,
 }
 export default function Form(props: FormProps) {
     const [title, setTitle] = useState<string>("");
     const navigate = useNavigate();
 
-   const onSubmit = () => {
+    const onSubmit = () => {
         props.handleSubmit(title)
         setTitle("");
     }

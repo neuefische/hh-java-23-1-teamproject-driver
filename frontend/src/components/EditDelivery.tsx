@@ -1,18 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {Typography} from "@mui/material";
 import Form from "./Form";
 import {DeliveryModel} from "../models/DeliveryModel";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 type EditProps = {
-    // title: string,
     delivery: DeliveryModel;
     loadDeliveryById: (id: string) => void,
     updateDelivery: (id: string, delivery: DeliveryModel) => void
 }
 export default function EditDelivery(props: EditProps) {
-    const [title, setTitle] = useState<string>(props.delivery.title);
     const {id} = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (id) {
@@ -21,11 +20,11 @@ export default function EditDelivery(props: EditProps) {
         //eslint-disable-next-line
     }, [id]);
     console.log("Delivery", props.delivery);
-    console.log("title", title);
 
     const handleSubmit = (title: string) => {
         const updatedDelivery: DeliveryModel = {...props.delivery, title: title};
         props.updateDelivery(updatedDelivery.id, updatedDelivery);
+        navigate('/home')
         // console.log("updated", updatedDelivery);
     }
 
