@@ -110,4 +110,13 @@ class DeliveryServiceTest {
         verify(deliveryRepo).save(toUpdate);
         assertEquals(expected, actual);
     }
+
+    @Test
+    void deleteDeliveryById(){
+        // WHEN
+        deliveryService.deleteDeliveryById(testIdOne);
+        // THEN
+        verify(deliveryRepo).deleteById(testIdOne);
+    }
+
 }
