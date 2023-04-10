@@ -5,6 +5,7 @@ import DeliveryCard from "./DeliveryCard";
 
 type GalleryProps = {
     deliveries: DeliveryModel[];
+    deleteDelivery: (id:string) => void
 }
 export default function Gallery(props: GalleryProps) {
     return (
@@ -16,7 +17,7 @@ export default function Gallery(props: GalleryProps) {
                 <ul className="card-container">
                     {props.deliveries.map((delivery) => {
                         return (
-                            <DeliveryCard key={delivery.id} delivery={delivery}/>)
+                            <DeliveryCard key={delivery.id} delivery={delivery} deleteDelivery={props.deleteDelivery}/>)
                     })}
                 </ul>
             </Box>
