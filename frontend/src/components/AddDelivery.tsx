@@ -1,5 +1,5 @@
 import {NewDeliveryModel} from "../models/DeliveryModel";
-import {Typography} from "@mui/material";
+import {Box, Container, Typography} from "@mui/material";
 import './Form.css'
 import Form from "./Form";
 
@@ -15,11 +15,13 @@ export default function AddDelivery(props: AddDeliveryProps) {
     }
 
     return (
-        <section>
-            <Typography sx={{fontSize: "1.5rem", padding: "0.5rem"}} variant="h2">
-                Add your Delivery
-            </Typography>
-            <Form handleSubmit={handleSubmit} buttonText="Add"/>
-        </section>
+        <Container maxWidth="lg">
+            <Box sx={{bgcolor: '#efebe9', p: "1rem", pb: "3rem"}}>
+                <Typography sx={{fontSize: "1.5rem", padding: "0.5rem"}} variant="h2">
+                    Add your Delivery
+                </Typography>
+                <Form handleSubmit={handleSubmit} buttonText="Add"/>
+            </Box>
+        </Container>
     )
 }

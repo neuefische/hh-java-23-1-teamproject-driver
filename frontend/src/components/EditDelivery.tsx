@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Typography} from "@mui/material";
+import {Box, Container, Typography} from "@mui/material";
 import Form from "./Form";
 import {DeliveryModel} from "../models/DeliveryModel";
 import {useNavigate, useParams} from "react-router-dom";
@@ -29,11 +29,13 @@ export default function EditDelivery(props: EditProps) {
     }
 
     return (
-        <section>
-            <Typography sx={{fontSize: "1.5rem", padding: "0.5rem"}} variant="h2">
-                Edit your Delivery
-            </Typography>
-            <Form handleSubmit={handleSubmit} buttonText="Save"/>
-        </section>
+        <Container maxWidth="lg">
+            <Box sx={{bgcolor: '#efebe9', p: "1rem", pb: "3rem"}}>
+                <Typography sx={{fontSize: "1.5rem", padding: "0.5rem"}} variant="h2">
+                    Edit your Delivery
+                </Typography>
+                <Form handleSubmit={handleSubmit} buttonText="Save"/>
+            </Box>
+        </Container>
     )
 }
