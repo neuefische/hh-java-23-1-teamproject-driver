@@ -33,4 +33,8 @@ public class DeliveryService {
     public Delivery updateDelivery(Delivery delivery) {
         return deliveryRepo.save(delivery);
     }
+
+    public void deleteDeliveryById(String id) {
+        deliveryRepo.deleteById(id);
+    }
 }

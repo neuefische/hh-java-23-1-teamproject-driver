@@ -45,4 +45,8 @@ public class DeliveryController {
 
         return deliveryService.updateDelivery(delivery);
     }
+
+    @DeleteMapping("/{id}")
+    void deleteDeliveryById (@PathVariable String id)
+    {deliveryService.deleteDeliveryById(id);}
 }
