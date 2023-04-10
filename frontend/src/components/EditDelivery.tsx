@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {Box, Container, Typography} from "@mui/material";
 import Form from "./Form";
 import {DeliveryModel} from "../models/DeliveryModel";
@@ -10,6 +10,7 @@ type EditProps = {
     updateDelivery: (id: string, delivery: DeliveryModel) => void
 }
 export default function EditDelivery(props: EditProps) {
+    const [isEditMode, setIsEditMode] = useState(true);
     const {id} = useParams();
     const navigate = useNavigate();
 
@@ -34,7 +35,10 @@ export default function EditDelivery(props: EditProps) {
                 <Typography sx={{fontSize: "1.5rem", padding: "0.5rem"}} variant="h2">
                     Edit your Delivery
                 </Typography>
-                <Form handleSubmit={handleSubmit} buttonText="Save"/>
+                <Form isEditMode={isEditMode}
+                      delivery={props.delivery}
+                      handleSubmit={handleSubmit}
+                      buttonText="Save"/>
             </Box>
         </Container>
     )

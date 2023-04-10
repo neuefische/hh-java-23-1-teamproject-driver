@@ -2,13 +2,17 @@ import React, {useState} from "react";
 import {Button, ButtonGroup, TextField} from "@mui/material";
 import './Form.css'
 import {useNavigate} from "react-router-dom";
+import {DeliveryModel} from "../models/DeliveryModel";
 
 type FormProps = {
     handleSubmit: (title: string) => void,
     buttonText: string,
+    isEditMode: boolean,
+    delivery: DeliveryModel;
 }
 export default function Form(props: FormProps) {
     const [title, setTitle] = useState<string>("");
+
     const navigate = useNavigate();
 
     const onSubmit = () => {
@@ -22,7 +26,7 @@ export default function Form(props: FormProps) {
                 required
                 label="Title"
                 id="title"
-                value={title}
+                defaultValue={props.isEditMode ? props.delivery.title : title}
                 onChange={(event) => setTitle(event.target.value)}
             />
             <ButtonGroup sx={{display: "flex", justifyContent: "space-evenly"}} variant="text"

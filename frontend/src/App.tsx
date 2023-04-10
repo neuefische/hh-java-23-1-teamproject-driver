@@ -34,7 +34,9 @@ function App() {
                                <Gallery deliveries={deliveries}/>}/>
                     <Route path="/add"
                            element={
-                               <AddDelivery addDelivery={addDelivery}/>}/>
+                               <AddDelivery isEditMode={false}
+                                            delivery={delivery}
+                                            addDelivery={addDelivery}/>}/>
                     <Route path="/details/:id"
                            element={
                                <DeliveryDetails message={message}
@@ -43,7 +45,6 @@ function App() {
                     <Route path="/edit/:id"
                            element={
                                <EditDelivery delivery={delivery}
-                                   // title={delivery.title}
                                              loadDeliveryById={loadDeliveryById}
                                              updateDelivery={updateDelivery}/>}/>
                 </Routes>

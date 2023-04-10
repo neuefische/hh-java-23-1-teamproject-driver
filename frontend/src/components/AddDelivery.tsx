@@ -1,10 +1,12 @@
-import {NewDeliveryModel} from "../models/DeliveryModel";
+import {DeliveryModel, NewDeliveryModel} from "../models/DeliveryModel";
 import {Box, Container, Typography} from "@mui/material";
 import './Form.css'
 import Form from "./Form";
 
 type AddDeliveryProps = {
     addDelivery: (delivery: NewDeliveryModel) => void;
+    isEditMode: boolean,
+    delivery: DeliveryModel
 }
 export default function AddDelivery(props: AddDeliveryProps) {
 
@@ -20,7 +22,10 @@ export default function AddDelivery(props: AddDeliveryProps) {
                 <Typography sx={{fontSize: "1.5rem", padding: "0.5rem"}} variant="h2">
                     Add your Delivery
                 </Typography>
-                <Form handleSubmit={handleSubmit} buttonText="Add"/>
+                <Form isEditMode={false}
+                      delivery={props.delivery}
+                      handleSubmit={handleSubmit}
+                      buttonText="Add"/>
             </Box>
         </Container>
     )
