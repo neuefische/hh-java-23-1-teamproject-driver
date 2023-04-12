@@ -10,7 +10,7 @@ type EditProps = {
     updateDelivery: (id: string, delivery: DeliveryModel) => void
 }
 export default function EditDelivery(props: EditProps) {
-    const [isEditMode, setIsEditMode] = useState(true);
+    const [isEditMode] = useState(true);
     const {id} = useParams();
     const navigate = useNavigate();
 
@@ -26,7 +26,6 @@ export default function EditDelivery(props: EditProps) {
         const updatedDelivery: DeliveryModel = {...props.delivery, title: title};
         props.updateDelivery(updatedDelivery.id, updatedDelivery);
         navigate('/home')
-        // console.log("updated", updatedDelivery);
     }
 
     return (
