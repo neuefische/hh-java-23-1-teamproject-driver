@@ -8,15 +8,53 @@ import AddDelivery from "./components/AddDelivery";
 import Navigation from "./components/Navigation";
 import DeliveryDetails from "./components/DeliveryDetails";
 import useDeliveries from "./hooks/useDeliveries";
+import LoginPage from "./components/LoginPage";
+import useUser from "./hooks/useUser";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 
 function App() {
+    const {user, login} = useUser()
     const {deliveries, environmentName, addDelivery} = useDeliveries()
+
 
     return (
         <BrowserRouter>
             <div>
                 <Header/>
                 <Routes>
+                    <Route path="/login" element={<LoginPage onLogin={login}/>}/>
+
+                    <Route element={<ProtectedRoutes user={user}/>}>
+
+                        <Route path="/home"
+                               element={
+                                   <Container maxWidth="lg">
+                                       <Box sx={{bgcolor: '#efebe9', pb: "3rem"}}>
+                                           <Gallery deliveries={deliveries}/>
+                                       </Box>
+                                   </Container>
+                               }
+                        />
+                        <Route path="/add"
+                               element={
+                                   <Container maxWidth="lg">
+                                       <Box sx={{bgcolor: '#efebe9', p: "1rem", pb: "3rem"}}>
+                                           <AddDelivery addDelivery={addDelivery}/>
+                                       </Box>
+                                   </Container>
+                               }
+                        />
+                        <Route path="/details/:id"
+                               element={
+                                   <Container maxWidth="lg">
+                                       <Box sx={{bgcolor: '#efebe9', p: "1rem", pb: "3rem"}}>
+                                           <DeliveryDetails/>
+                                       </Box>
+                                   </Container>
+                               }/>
+
+                    </Route>
+
                     <Route path="/"
                            element={
                                <Container maxWidth="lg">
@@ -27,32 +65,7 @@ function App() {
                                    </Box>
                                </Container>
                            }/>
-                    <Route path="/home"
-                           element={
-                               <Container maxWidth="lg">
-                                   <Box sx={{bgcolor: '#efebe9', pb: "3rem"}}>
-                                       <Gallery deliveries={deliveries}/>
-                                   </Box>
-                               </Container>
-                           }
-                    />
-                    <Route path="/add"
-                           element={
-                               <Container maxWidth="lg">
-                                   <Box sx={{bgcolor: '#efebe9', p: "1rem", pb: "3rem"}}>
-                                       <AddDelivery addDelivery={addDelivery}/>
-                                   </Box>
-                               </Container>
-                           }
-                    />
-                    <Route path="/details/:id"
-                           element={
-                               <Container maxWidth="lg">
-                                   <Box sx={{bgcolor: '#efebe9', p: "1rem", pb: "3rem"}}>
-                                       <DeliveryDetails/>
-                                   </Box>
-                               </Container>
-                           }/>
+
                 </Routes>
                 <Navigation/>
             </div>
