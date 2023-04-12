@@ -112,4 +112,40 @@ class DeliveryIntegrationTest {
                 .andExpect(result -> assertTrue(
                         result.getResolvedException() instanceof ResponseStatusException));
     }
+
+    @Test
+    void expectSuccessfulDelete() throws Exception {
+        String saveResult = mockMvc.perform(
+                        post("/api/deliveries")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                        {"title": "test"}
+                                        """)
+                )
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        Delivery saveResultDelivery = objectMapper.readValue(saveResult, Delivery.class);
+        String id = saveResultDelivery.id();
+
+        mockMvc.perform(delete("/api/deliveries/" + id))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/deliveries"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        []
+                        """
+                ));
+    }
+
+
+    @Test
+    void deleteDelivery_shouldThrowResponseStatusException_whenIdInvalid() throws Exception {
+        mockMvc.perform(delete("/api/deliveries/123"))
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertTrue(
+                        result.getResolvedException() instanceof ResponseStatusException));
+    }
 }

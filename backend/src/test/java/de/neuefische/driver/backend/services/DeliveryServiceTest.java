@@ -82,6 +82,7 @@ class DeliveryServiceTest {
         verify(deliveryRepo).findById(testIdOne);
     }
 
+
     @Test
     void addDelivery_ShouldReturnAddedDelivery() {
         Delivery toAdd = createTestDeliveryInstance();
@@ -112,11 +113,25 @@ class DeliveryServiceTest {
     }
 
     @Test
-    void deleteDeliveryById(){
+    void deleteDeliveryById() {
         // WHEN
         deliveryService.deleteDeliveryById(testIdOne);
         // THEN
         verify(deliveryRepo).deleteById(testIdOne);
     }
+    @Test
+    void deleteDeliveryById_shouldThrowException_whenInvalidId() {
+        // WHEN
+        Mockito.when(deliveryRepo.existsById("123"))
+                .thenThrow((new NoSuchElementException()));
+        try {
+            deliveryService.deleteDeliveryById("123");
+            fail();
+        } catch (NoSuchElementException e) {
+            assertTrue(true);
+        }
+        verify(deliveryRepo).existsById("123");
+    }
+
 
 }
