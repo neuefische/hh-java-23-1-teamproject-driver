@@ -7,7 +7,8 @@ import EditIcon from "@mui/icons-material/Edit";
 type DetailsProps = {
     loadDeliveryById: (id: string) => void;
     delivery: DeliveryModel,
-    message: string
+    message: string,
+    deleteDelivery: (id:string) => void
 }
 export default function DeliveryDetails(props: DetailsProps) {
     // const [message, setMessage] = useState("")
@@ -20,6 +21,11 @@ export default function DeliveryDetails(props: DetailsProps) {
         }
         //eslint-disable-next-line
     }, [id]);
+
+    function onDeleteClick(){
+        props.deleteDelivery(props.delivery.id)
+        navigate("/home")
+    }
 
     return (
         <Container maxWidth="lg">
@@ -37,6 +43,7 @@ export default function DeliveryDetails(props: DetailsProps) {
                                     onClick={() => navigate(`/home`)}>Back</Button>
                             <Button className="button" variant="contained" endIcon={<EditIcon/>}
                                     onClick={() => navigate(`/edit/${props.delivery.id}`)}>Edit</Button>
+                            <Button color="error" onClick={onDeleteClick}>Delete</Button>
                         </ButtonGroup>
 
                     </Card>

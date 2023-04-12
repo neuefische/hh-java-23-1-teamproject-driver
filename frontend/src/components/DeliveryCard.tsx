@@ -20,11 +20,11 @@ export default function DeliveryCard(props: CardProps) {
         <Card variant="outlined" className="details-card">
             <small> ID: {props.delivery.id}</small>
             <p>Title: {props.delivery.title}</p>
-            <ButtonGroup sx={{display: "flex", justifyContent: "flex-end"}} variant="text"
+            <ButtonGroup sx={{display: "flex", justifyContent: "space-between"}} variant="text"
                          aria-label="text button group">
                 <Button variant="outlined"
                         onClick={() => navigate(`/details/${props.delivery.id}`)}>Details</Button>
-                <Button variant="outlined"
+                <Button color="error"
                         onClick={onDeleteClick}>Delete</Button>
             </ButtonGroup>
         </Card>

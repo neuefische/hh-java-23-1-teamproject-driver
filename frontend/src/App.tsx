@@ -42,6 +42,7 @@ function App() {
                            element={
                                <DeliveryDetails message={message}
                                                 delivery={delivery}
+                                                deleteDelivery={deleteDelivery}
                                                 loadDeliveryById={loadDeliveryById}/>}/>
                     <Route path="/edit/:id"
                            element={
