@@ -2,7 +2,8 @@ import {FormEvent, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 type Props = {
-    onLogin: (username: string, password: string) => Promise<void>
+    onLogin: (username: string, password: string) => Promise<void>,
+    loadDeliveries: ()=> void
 }
 
 export default function LoginPage(props: Props){
@@ -15,7 +16,8 @@ export default function LoginPage(props: Props){
 
         props.onLogin(username, password)
             .then(()=> {
-                navigate("/deliveries")
+                navigate("/home");
+                props.loadDeliveries()
             })
 
     }
@@ -25,8 +27,6 @@ export default function LoginPage(props: Props){
             <input value={username} placeholder="username" type="text" onChange={event => setUsername(event.target.value)}/>
             <input value={password} placeholder="password" type="password" onChange={event => setPassword(event.target.value)}/>
             <button type="submit">Login</button>
-
-
         </form>
     )
 }

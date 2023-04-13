@@ -13,19 +13,18 @@ import useUser from "./hooks/useUser";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 
 function App() {
-    const {user, login} = useUser()
-    const {deliveries, environmentName, addDelivery} = useDeliveries()
+    const {user, login, logout} = useUser()
+    const {deliveries, environmentName, loadDeliveries, addDelivery} = useDeliveries()
 
 
     return (
         <BrowserRouter>
             <div>
-                <Header/>
+                <Header user={user} onLogout={logout}/>
                 <Routes>
-                    <Route path="/login" element={<LoginPage onLogin={login}/>}/>
+                    <Route path="/login" element={<LoginPage loadDeliveries={loadDeliveries} onLogin={login}/>}/>
 
                     <Route element={<ProtectedRoutes user={user}/>}>
-
                         <Route path="/home"
                                element={
                                    <Container maxWidth="lg">
@@ -52,7 +51,6 @@ function App() {
                                        </Box>
                                    </Container>
                                }/>
-
                     </Route>
 
                     <Route path="/"

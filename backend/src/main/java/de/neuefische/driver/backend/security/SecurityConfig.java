@@ -2,6 +2,7 @@ package de.neuefische.driver.backend.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -30,7 +31,9 @@ public class SecurityConfig {
                         .csrfTokenRequestHandler(requestHandler))
 
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
-                .httpBasic().and()
+                .httpBasic()
+                .authenticationEntryPoint((request, response, authException) -> response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase()))
+                .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/user/**").permitAll()
                 .requestMatchers("/api/user").permitAll()
@@ -38,8 +41,6 @@ public class SecurityConfig {
                 .anyRequest().permitAll()
                 .and().build();
     }
-
-
 
 
 }
