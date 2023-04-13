@@ -13,7 +13,6 @@ export default function AddDelivery(props: AddDeliveryProps) {
     const handleSubmit = (title: string) => {
         const deliveryToAdd: NewDeliveryModel = {title: title};
         props.addDelivery(deliveryToAdd);
-        // console.log("add", deliveryToAdd)
     }
 
     return (

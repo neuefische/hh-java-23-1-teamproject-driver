@@ -29,11 +29,14 @@ export default function Form(props: FormProps) {
                 defaultValue={props.isEditMode ? props.delivery.title : title}
                 onChange={(event) => setTitle(event.target.value)}
             />
-            <ButtonGroup sx={{display: "flex", justifyContent: "space-evenly"}} variant="text"
+            <ButtonGroup sx={{display: "flex", justifyContent: "space-evenly"}}
+                         variant="text"
                          aria-label="text button group">
-                <Button variant="outlined"
+                <Button type="button"
+                        variant="outlined"
                         onClick={() => navigate(`/home`)}>Back</Button>
-                <Button className="button" variant="contained" type="submit">{props.buttonText}</Button>
+                <Button type="submit"
+                        variant="contained">{props.buttonText}</Button>
             </ButtonGroup>
         </form>
     )
