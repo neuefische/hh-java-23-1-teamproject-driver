@@ -1,39 +1,48 @@
-import {Card} from "@mui/material";
-import React, {useEffect, useState} from "react";
+import {Box, Button, ButtonGroup, Card, Container, Typography} from "@mui/material";
+import React, {useEffect} from "react";
 import {DeliveryModel} from "../models/DeliveryModel";
-import {useParams} from "react-router-dom";
-import axios from "axios";
+import {useNavigate, useParams} from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
 
-export default function DeliveryDetails() {
-    const [delivery, setDelivery] = useState<DeliveryModel>()
-    const [message, setMessage] = useState("")
+type DetailsProps = {
+    loadDeliveryById: (id: string) => void;
+    delivery: DeliveryModel,
+    message: string
+}
+export default function DeliveryDetails(props: DetailsProps) {
+    // const [message, setMessage] = useState("")
     const {id} = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (id) {
-            loadDeliveryById()
+            props.loadDeliveryById(id)
         }
         //eslint-disable-next-line
     }, [id]);
 
-    function loadDeliveryById() {
-        axios.get(`/api/deliveries/${id}`)
-            .then((response) => {
-                setDelivery(response.data)
-            })
-            .catch((error) => {
-                console.error(error)
-                setMessage("Delivery not found")
-            })
-    }
-
     return (
-        delivery ?
-            <Card variant="outlined" sx={{p: "0.3rem"}}>
-                <p>Title: {delivery.title}</p>
-                <small>ID: {delivery.id}</small>
-            </Card>
-            :
-            <p>{message}</p>
+        <Container maxWidth="lg">
+            <Box sx={{bgcolor: '#efebe9', p: "1rem", pb: "3rem"}}>
+                <Typography sx={{fontSize: "1.5rem", padding: "1rem"}} variant="h2" component="h2">
+                    Delivery Details
+                </Typography>
+                {props.delivery ?
+                    <Card variant="outlined" sx={{p: "0.3rem"}}>
+                        <small>ID: {props.delivery.id}</small>
+                        <p>Title: {props.delivery.title}</p>
+                        <ButtonGroup sx={{display: "flex", justifyContent: "space-between"}} variant="text"
+                                     aria-label="text button group">
+                            <Button variant="outlined"
+                                    onClick={() => navigate(`/home`)}>Back</Button>
+                            <Button className="button" variant="contained" endIcon={<EditIcon/>}
+                                    onClick={() => navigate(`/edit/${props.delivery.id}`)}>Edit</Button>
+                        </ButtonGroup>
+
+                    </Card>
+                    :
+                    <p>{props.message}</p>}
+            </Box>
+        </Container>
     )
 }

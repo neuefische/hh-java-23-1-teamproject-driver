@@ -9,13 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.NoSuchElementException;
-
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -32,20 +30,16 @@ class DeliveryIntegrationTest {
         mockMvc.perform(get("/api/deliveries"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
-                []
-                """));
+                        []
+                        """));
     }
 
     @Test
-    void getDeliveryById_shouldThrowException_whenInvalidId() {
-        try {
-            mockMvc.perform(get("/api/deliveries/123"));
-            fail();
-        } catch (Exception e) {
-            if (!(e.getCause() instanceof NoSuchElementException)) {
-                fail();
-            }
-        }
+    void getDeliveryById_shouldThrowException_whenInvalidId() throws Exception {
+        mockMvc.perform(get("/api/deliveries/123"))
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> assertTrue(
+                        result.getResolvedException() instanceof ResponseStatusException));
     }
 
     @Test
@@ -82,5 +76,40 @@ class DeliveryIntegrationTest {
                                "id": "<ID>",
                              "title":  "test"}
                         """.replaceFirst("<ID>", id)));
+    }
+
+    @Test
+    void updateDelivery_shouldReturnUpdatedDelivery() throws Exception {
+        String requested = mockMvc.perform(post("/api/deliveries")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"title":  "test"}
+                                """))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        Delivery addedDelivery = objectMapper.readValue(requested, Delivery.class);
+        Delivery deliveryToUpdate = new Delivery(addedDelivery.id(), "update");
+        String deliveryToUpdateJson = objectMapper.writeValueAsString(deliveryToUpdate);
+
+        mockMvc.perform(put("/api/deliveries/" + deliveryToUpdate.id())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(deliveryToUpdateJson))
+                .andExpect(status().isOk())
+                .andExpect(content().string(deliveryToUpdateJson));
+    }
+
+    @Test
+    void updateDelivery_shouldThrowResponseStatusException_whenBodyIdAndUrlIdAreNotEqual() throws Exception {
+        Delivery deliveryToUpdate = new Delivery("idOne", "update");
+        String deliveryToUpdateJson = objectMapper.writeValueAsString(deliveryToUpdate);
+
+        mockMvc.perform(put("/api/deliveries/wrongId")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(deliveryToUpdateJson))
+                .andExpect(status().isIAmATeapot())
+                .andExpect(result -> assertTrue(
+                        result.getResolvedException() instanceof ResponseStatusException));
     }
 }

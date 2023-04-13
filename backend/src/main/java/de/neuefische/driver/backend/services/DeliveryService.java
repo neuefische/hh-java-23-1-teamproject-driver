@@ -29,4 +29,8 @@ public class DeliveryService {
         return deliveryRepo.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(errorMessage));
     }
+
+    public Delivery updateDelivery(Delivery delivery) {
+        return deliveryRepo.save(delivery);
+    }
 }
