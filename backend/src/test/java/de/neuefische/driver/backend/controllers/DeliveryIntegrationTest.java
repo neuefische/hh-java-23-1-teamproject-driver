@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 import java.util.NoSuchElementException;
 
@@ -28,6 +30,7 @@ class DeliveryIntegrationTest {
     ObjectMapper objectMapper;
 
     @Test
+    @WithMockUser
     void getDeliveries_shouldReturnEmptyList_whenRepoIsEmpty() throws Exception {
         mockMvc.perform(get("/api/deliveries"))
                 .andExpect(status().isOk())
@@ -37,6 +40,7 @@ class DeliveryIntegrationTest {
     }
 
     @Test
+    @WithMockUser
     void getDeliveryById_shouldThrowException_whenInvalidId() {
         try {
             mockMvc.perform(get("/api/deliveries/123"));
@@ -49,12 +53,14 @@ class DeliveryIntegrationTest {
     }
 
     @Test
+    @WithMockUser
     void addDelivery_shouldReturnAddedDelivery() throws Exception {
         mockMvc.perform(post("/api/deliveries")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"title":  "test"}
-                                """))
+                                """)
+                .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                         {"title":  "test"}
@@ -63,12 +69,14 @@ class DeliveryIntegrationTest {
     }
 
     @Test
+    @WithMockUser
     void getDeliveryById_shouldReturnRequestedDelivery() throws Exception {
         String requested = mockMvc.perform(post("/api/deliveries")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"title":  "test"}
-                                """))
+                                """)
+                .with(csrf()))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
@@ -83,4 +91,12 @@ class DeliveryIntegrationTest {
                              "title":  "test"}
                         """.replaceFirst("<ID>", id)));
     }
+    @Test
+    void getDeliveryById_shouldReturnStatus401_whenUserIsUndefinedOrAnonymous() throws Exception {
+        mockMvc.perform(get("/api/deliveries"))
+                .andExpect(status().isUnauthorized());
+    }
+
+
+
 }
