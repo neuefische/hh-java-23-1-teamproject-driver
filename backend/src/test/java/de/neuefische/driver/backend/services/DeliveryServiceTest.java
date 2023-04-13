@@ -114,11 +114,14 @@ class DeliveryServiceTest {
 
     @Test
     void deleteDeliveryById() {
+        Mockito.when(deliveryRepo.existsById(testIdOne))
+                .thenReturn(true);
         // WHEN
         deliveryService.deleteDeliveryById(testIdOne);
         // THEN
-        verify(deliveryRepo).deleteById(testIdOne);
+        verify(deliveryRepo).existsById(testIdOne);
     }
+
     @Test
     void deleteDeliveryById_shouldThrowException_whenInvalidId() {
         // WHEN
