@@ -22,7 +22,6 @@ class DeliveryServiceTest {
     private final String testIdOne = "1";
 
     private Delivery createTestDeliveryInstance() {
-
         return new Delivery(testIdOne, "pizza");
     }
 
@@ -55,7 +54,6 @@ class DeliveryServiceTest {
         assertEquals(expected, actual);
     }
 
-
     @Test
     void getDeliveryById_shouldReturnRequestedDelivery() {
         Delivery requested = createTestDeliveryInstance();
@@ -84,6 +82,7 @@ class DeliveryServiceTest {
         verify(deliveryRepo).findById(testIdOne);
     }
 
+
     @Test
     void addDelivery_ShouldReturnAddedDelivery() {
         Delivery toAdd = createTestDeliveryInstance();
@@ -93,10 +92,49 @@ class DeliveryServiceTest {
                 .thenReturn(testIdOne);
 
         Delivery actual = deliveryService.addDelivery(toAdd);
+        Delivery expected = createTestDeliveryInstance();
 
         verify(deliveryRepo).save(toAdd);
         verify(idService).createRandomId();
-        Delivery expected = createTestDeliveryInstance();
         assertEquals(expected, actual);
     }
+
+    @Test
+    void updateDelivery_ShouldReturnUpdatedDelivery() {
+        Delivery toUpdate = createTestDeliveryInstance();
+        Mockito.when(deliveryRepo.save(toUpdate))
+                .thenReturn(toUpdate);
+
+        Delivery actual = deliveryService.updateDelivery(toUpdate);
+        Delivery expected = createTestDeliveryInstance();
+
+        verify(deliveryRepo).save(toUpdate);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void deleteDeliveryById() {
+        Mockito.when(deliveryRepo.existsById(testIdOne))
+                .thenReturn(true);
+        // WHEN
+        deliveryService.deleteDeliveryById(testIdOne);
+        // THEN
+        verify(deliveryRepo).existsById(testIdOne);
+    }
+
+    @Test
+    void deleteDeliveryById_shouldThrowException_whenInvalidId() {
+        // WHEN
+        Mockito.when(deliveryRepo.existsById("123"))
+                .thenThrow((new NoSuchElementException()));
+        try {
+            deliveryService.deleteDeliveryById("123");
+            fail();
+        } catch (NoSuchElementException e) {
+            assertTrue(true);
+        }
+        verify(deliveryRepo).existsById("123");
+    }
+
+
 }

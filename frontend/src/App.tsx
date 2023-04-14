@@ -2,8 +2,7 @@ import React from 'react';
 import Gallery from "./components/Gallery";
 import './App.css'
 import Header from "./components/Header";
-import {Box, Container, Typography} from '@mui/material';
-import {BrowserRouter, NavLink, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import AddDelivery from "./components/AddDelivery";
 import Navigation from "./components/Navigation";
 import DeliveryDetails from "./components/DeliveryDetails";
@@ -11,10 +10,12 @@ import useDeliveries from "./hooks/useDeliveries";
 import LoginPage from "./components/LoginPage";
 import useUser from "./hooks/useUser";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import EditDelivery from "./components/EditDelivery";
+import LandingPage from "./components/LandingPage";
 
 function App() {
     const {user, login, logout} = useUser()
-    const {deliveries, environmentName, loadDeliveries, addDelivery} = useDeliveries()
+    const {message, delivery, deliveries, environmentName, loadDeliveries, loadDeliveryById, updateDelivery, deleteDelivery} = useDeliveries()
 
 
     return (
@@ -25,50 +26,39 @@ function App() {
                     <Route path="/login" element={<LoginPage loadDeliveries={loadDeliveries} onLogin={login}/>}/>
 
                     <Route element={<ProtectedRoutes user={user}/>}>
-                        <Route path="/home"
-                               element={
-                                   <Container maxWidth="lg">
-                                       <Box sx={{bgcolor: '#efebe9', pb: "3rem"}}>
-                                           <Gallery deliveries={deliveries}/>
-                                       </Box>
-                                   </Container>
-                               }
-                        />
-                        <Route path="/add"
-                               element={
-                                   <Container maxWidth="lg">
-                                       <Box sx={{bgcolor: '#efebe9', p: "1rem", pb: "3rem"}}>
-                                           <AddDelivery addDelivery={addDelivery}/>
-                                       </Box>
-                                   </Container>
-                               }
-                        />
-                        <Route path="/details/:id"
-                               element={
-                                   <Container maxWidth="lg">
-                                       <Box sx={{bgcolor: '#efebe9', p: "1rem", pb: "3rem"}}>
-                                           <DeliveryDetails/>
-                                       </Box>
-                                   </Container>
-                               }/>
+
+                    <Route path="/home"
+                           element={
+                               <Gallery deliveries={deliveries} deleteDelivery={deleteDelivery}/>}/>
+                    <Route path="/add"
+                           element={
+                               <AddDelivery isEditMode={false}
+                                            delivery={delivery}
+                                            addDelivery={addDelivery}/>}/>
+                    <Route path="/details/:id"
+                           element={
+                               <DeliveryDetails message={message}
+                                                delivery={delivery}
+                                                deleteDelivery={deleteDelivery}
+                                                loadDeliveryById={loadDeliveryById}/>}/>
+                    <Route path="/edit/:id"
+                           element={
+                               <EditDelivery delivery={delivery}
+                                             loadDeliveryById={loadDeliveryById}
+                                             updateDelivery={updateDelivery}/>}/>
+
                     </Route>
 
                     <Route path="/"
                            element={
-                               <Container maxWidth="lg">
-                                   <Box sx={{bgcolor: '#efebe9', p: "1rem", pb: "3rem", textAlign: "center"}}>
-                                       <Typography variant="h2">Welcome you freaks</Typography>
-                                       <p>{environmentName}</p>
-                                       <NavLink className="start-link" to="/home">Click to Start...</NavLink>
-                                   </Box>
-                               </Container>
-                           }/>
+                               <LandingPage environmentName={environmentName}/>}/>
 
                 </Routes>
                 <Navigation/>
             </div>
         </BrowserRouter>
-    );
+    )
+        ;
 }
 
 export default App;

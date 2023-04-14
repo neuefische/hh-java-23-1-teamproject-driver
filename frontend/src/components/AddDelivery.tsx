@@ -1,36 +1,31 @@
-import {FormEvent, useState} from "react";
-import {NewDeliveryModel} from "../models/DeliveryModel";
-import {Button, TextField, Typography} from "@mui/material";
-import './AddDelivery.css'
+import {DeliveryModel, NewDeliveryModel} from "../models/DeliveryModel";
+import {Box, Container, Typography} from "@mui/material";
+import './Form.css'
+import Form from "./Form";
 
 type AddDeliveryProps = {
-    addDelivery: (delivery: NewDeliveryModel) => void
+    addDelivery: (delivery: NewDeliveryModel) => void;
+    isEditMode: boolean,
+    delivery: DeliveryModel
 }
 export default function AddDelivery(props: AddDeliveryProps) {
-    const [title, setTitle] = useState<string>("")
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
+    const handleSubmit = (title: string) => {
         const deliveryToAdd: NewDeliveryModel = {title: title};
-        props.addDelivery(deliveryToAdd)
-        setTitle("")
+        props.addDelivery(deliveryToAdd);
     }
 
     return (
-        <section>
-            <Typography sx={{fontSize: "1.5rem", padding: "0.5rem"}} variant="h2">
-                Add your Delivery
-            </Typography>
-            <form className="form" onSubmit={handleSubmit}>
-                <TextField
-                    required
-                    label="Title"
-                    id="title"
-                    value={title}
-                    onChange={(event) => setTitle(event.target.value)}
-                />
-                <Button className="add-button" variant="outlined" type="submit">Add</Button>
-            </form>
-        </section>
+        <Container maxWidth="lg">
+            <Box sx={{bgcolor: '#efebe9', p: "1rem", pb: "3rem"}}>
+                <Typography sx={{fontSize: "1.5rem", padding: "0.5rem"}} variant="h2">
+                    Add your Delivery
+                </Typography>
+                <Form isEditMode={false}
+                      delivery={props.delivery}
+                      handleSubmit={handleSubmit}
+                      buttonText="Add"/>
+            </Box>
+        </Container>
     )
 }

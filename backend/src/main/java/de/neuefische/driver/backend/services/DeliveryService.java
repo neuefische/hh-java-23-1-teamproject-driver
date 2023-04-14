@@ -29,4 +29,15 @@ public class DeliveryService {
         return deliveryRepo.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(errorMessage));
     }
+
+    public Delivery updateDelivery(Delivery delivery) {
+        return deliveryRepo.save(delivery);
+    }
+
+    public void deleteDeliveryById(String id) {
+        if (deliveryRepo.existsById(id)) {
+            deliveryRepo.deleteById(id);
+        }
+        else throw new NoSuchElementException();
+    }
 }
