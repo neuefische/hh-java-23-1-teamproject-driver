@@ -19,6 +19,7 @@ function App() {
 
 
     return (
+        <main>
         <BrowserRouter>
             <div>
                 <Header user={user} onLogout={logout}/>
@@ -57,6 +58,7 @@ function App() {
                 <Navigation/>
             </div>
         </BrowserRouter>
+        </main>
     )
         ;
 }

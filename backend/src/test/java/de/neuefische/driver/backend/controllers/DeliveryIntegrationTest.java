@@ -10,11 +10,11 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.server.ResponseStatusException;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
-import java.util.NoSuchElementException;
-
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -97,12 +97,14 @@ class DeliveryIntegrationTest {
 
 
     @Test
+    @WithMockUser
     void updateDelivery_shouldReturnUpdatedDelivery() throws Exception {
         String requested = mockMvc.perform(post("/api/deliveries")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"title":  "test"}
-                                """))
+                                """)
+                        .with(csrf()))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
@@ -113,25 +115,29 @@ class DeliveryIntegrationTest {
 
         mockMvc.perform(put("/api/deliveries/" + deliveryToUpdate.id())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(deliveryToUpdateJson))
+                        .content(deliveryToUpdateJson)
+                        .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().string(deliveryToUpdateJson));
     }
 
     @Test
+    @WithMockUser
     void updateDelivery_shouldThrowResponseStatusException_whenBodyIdAndUrlIdAreNotEqual() throws Exception {
         Delivery deliveryToUpdate = new Delivery("idOne", "update");
         String deliveryToUpdateJson = objectMapper.writeValueAsString(deliveryToUpdate);
 
         mockMvc.perform(put("/api/deliveries/wrongId")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(deliveryToUpdateJson))
+                        .content(deliveryToUpdateJson)
+                        .with(csrf()))
                 .andExpect(status().isIAmATeapot())
                 .andExpect(result -> assertTrue(
                         result.getResolvedException() instanceof ResponseStatusException));
     }
 
     @Test
+    @WithMockUser
     void expectSuccessfulDelete() throws Exception {
         String saveResult = mockMvc.perform(
                         post("/api/deliveries")
@@ -139,7 +145,7 @@ class DeliveryIntegrationTest {
                                 .content("""
                                         {"title": "test"}
                                         """)
-                )
+                                .with(csrf()))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
@@ -147,7 +153,8 @@ class DeliveryIntegrationTest {
         Delivery saveResultDelivery = objectMapper.readValue(saveResult, Delivery.class);
         String id = saveResultDelivery.id();
 
-        mockMvc.perform(delete("/api/deliveries/" + id))
+        mockMvc.perform(delete("/api/deliveries/" + id)
+                        .with(csrf()))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/deliveries"))
@@ -160,8 +167,10 @@ class DeliveryIntegrationTest {
 
 
     @Test
+    @WithMockUser
     void deleteDelivery_shouldThrowResponseStatusException_whenIdInvalid() throws Exception {
-        mockMvc.perform(delete("/api/deliveries/123"))
+        mockMvc.perform(delete("/api/deliveries/123")
+                        .with(csrf()))
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(
                         result.getResolvedException() instanceof ResponseStatusException));

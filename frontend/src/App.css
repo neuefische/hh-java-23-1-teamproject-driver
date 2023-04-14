@@ -1,3 +1,8 @@
+main {
+    position: relative;
+    top: 9rem;
+}
+
 .start-link {
     display: block;
     color: #ef6c00;

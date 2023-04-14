@@ -19,7 +19,7 @@ export default function Header(props: HeaderProps) {
 
     return (
         <StyledHeader>
-            <Typography variant="h1" component="h1">
+            <Typography variant="h1" component="h1" sx={{fontSize: "2rem"}}>
                 Driver App
             </Typography>
             {authenticated &&
@@ -29,6 +29,10 @@ export default function Header(props: HeaderProps) {
 }
 
 const StyledHeader = styled.div`
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  top: 0;
   color: #e0e0e0;
   background-color: #ef6c00;
   text-align: center;
