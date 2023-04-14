@@ -1,15 +1,5 @@
 .details-card {
-    _display: flex;
-    _flex-direction: column;
-    padding: 0.3rem;
-    _background-color: #efebe9;
+    padding: 0.8rem;
     margin: 0.8rem 0.8rem;
     border-radius: 5px;
-}
-
-.button {
-    _align-self: end;
-    _width: 3rem;
-    margin: 0.5rem;
-
 }

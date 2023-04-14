@@ -3,6 +3,7 @@ import React from "react";
 import './DeliveryCard.css'
 import {Button, ButtonGroup, Card} from "@mui/material";
 import {useNavigate} from "react-router-dom";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type CardProps = {
     delivery: DeliveryModel;
@@ -24,7 +25,7 @@ export default function DeliveryCard(props: CardProps) {
                          aria-label="text button group">
                 <Button variant="outlined"
                         onClick={() => navigate(`/details/${props.delivery.id}`)}>Details</Button>
-                <Button color="error"
+                <Button color="error" endIcon={<DeleteIcon/>}
                         onClick={onDeleteClick}>Delete</Button>
             </ButtonGroup>
         </Card>
