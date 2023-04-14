@@ -2,6 +2,8 @@ import {DeliveryModel, NewDeliveryModel} from "../models/DeliveryModel";
 import {Box, Container, Typography} from "@mui/material";
 import './Form.css'
 import Form from "./Form";
+import {useNavigate} from "react-router-dom";
+
 
 type AddDeliveryProps = {
     addDelivery: (delivery: NewDeliveryModel) => void;
@@ -9,10 +11,13 @@ type AddDeliveryProps = {
     delivery: DeliveryModel
 }
 export default function AddDelivery(props: AddDeliveryProps) {
+    const navigate = useNavigate();
 
     const handleSubmit = (title: string) => {
         const deliveryToAdd: NewDeliveryModel = {title: title};
         props.addDelivery(deliveryToAdd);
+        navigate("/home")
+
     }
 
     return (

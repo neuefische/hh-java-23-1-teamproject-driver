@@ -28,8 +28,14 @@ export default function LoginPage(props: Props){
         <Box sx={{ bgcolor: '#efebe9', p: "1rem", pb: "3rem", m: "1rem"}}>
             <Typography variant="h4" component="h4">Login</Typography>
         <form className="form" onSubmit={onSubmit}>
-            <TextField value={username} placeholder="username" type="text" onChange={event => setUsername(event.target.value)}/>
-            <TextField value={password} placeholder="password" type="password" onChange={event => setPassword(event.target.value)}/>
+            <TextField value={username}
+                       placeholder="username"
+                       type="text"
+                       onChange={event => setUsername(event.target.value)}/>
+            <TextField value={password}
+                       placeholder="password"
+                       type="password"
+                       onChange={event => setPassword(event.target.value)}/>
             <Button type="submit">Login</Button>
         </form>
         </Box>

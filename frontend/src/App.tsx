@@ -53,14 +53,11 @@ function App() {
                     <Route path="/"
                            element={
                                <LandingPage environmentName={environmentName}/>}/>
-
                 </Routes>
                 <Navigation/>
             </div>
         </BrowserRouter>
         </main>
-    )
-        ;
+    );
 }
-
 export default App;

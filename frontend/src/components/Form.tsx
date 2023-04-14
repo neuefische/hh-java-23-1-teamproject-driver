@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {FormEvent, useState} from "react";
 import {Button, ButtonGroup, TextField} from "@mui/material";
 import './Form.css'
 import {useNavigate} from "react-router-dom";
@@ -15,7 +15,9 @@ export default function Form(props: FormProps) {
 
     const navigate = useNavigate();
 
-    const onSubmit = () => {
+    const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+
         props.handleSubmit(title)
         setTitle("");
     }
