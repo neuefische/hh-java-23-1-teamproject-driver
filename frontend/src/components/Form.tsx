@@ -11,7 +11,8 @@ type FormProps = {
     delivery: DeliveryModel;
 }
 export default function Form(props: FormProps) {
-    const [title, setTitle] = useState<string>("");
+    const initialState = props.isEditMode ? props.delivery.title :"";
+    const [title, setTitle] = useState<string>(initialState);
 
     const navigate = useNavigate();
 
@@ -28,7 +29,7 @@ export default function Form(props: FormProps) {
                 required
                 label="Title"
                 id="title"
-                defaultValue={props.isEditMode ? props.delivery.title : title}
+                value={title}
                 onChange={(event) => setTitle(event.target.value)}
             />
             <ButtonGroup sx={{display: "flex", justifyContent: "space-evenly"}}
@@ -36,7 +37,7 @@ export default function Form(props: FormProps) {
                          aria-label="text button group">
                 <Button type="button"
                         variant="outlined"
-                        onClick={() => navigate(`/home`)}>Back</Button>
+                        onClick={() => navigate(-1)}>Back</Button>
                 <Button type="submit"
                         variant="contained">{props.buttonText}</Button>
             </ButtonGroup>

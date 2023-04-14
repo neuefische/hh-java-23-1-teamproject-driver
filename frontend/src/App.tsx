@@ -12,6 +12,8 @@ import useUser from "./hooks/useUser";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import EditDelivery from "./components/EditDelivery";
 import LandingPage from "./components/LandingPage";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const {user, login, logout} = useUser()
@@ -23,6 +25,7 @@ function App() {
         <BrowserRouter>
             <div>
                 <Header user={user} onLogout={logout}/>
+                <ToastContainer autoClose={3000}/>
                 <Routes>
                     <Route path="/login" element={<LoginPage loadDeliveries={loadDeliveries} onLogin={login}/>}/>
 

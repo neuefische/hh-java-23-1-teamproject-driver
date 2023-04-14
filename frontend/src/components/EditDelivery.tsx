@@ -26,7 +26,7 @@ export default function EditDelivery(props: EditProps) {
     const handleSubmit = (title: string) => {
         const updatedDelivery: DeliveryModel = {...props.delivery, title: title};
         props.updateDelivery(updatedDelivery.id, updatedDelivery);
-        navigate("/home")
+        navigate(-1)
     }
 
     return (

@@ -2,6 +2,7 @@ package de.neuefische.driver.backend.controllers;
 
 import de.neuefische.driver.backend.models.Delivery;
 import de.neuefische.driver.backend.services.DeliveryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class DeliveryController {
     }
 
     @PostMapping
-    public Delivery addDelivery(@RequestBody Delivery delivery) {
+    public Delivery addDelivery(@RequestBody @Valid Delivery delivery) {
         return deliveryService.addDelivery(delivery);
     }
 

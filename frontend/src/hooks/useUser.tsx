@@ -1,5 +1,6 @@
 import {useState} from "react";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 export default function useUser() {
     const [user, setUser] = useState<string>()
@@ -10,11 +11,11 @@ export default function useUser() {
                 setUser(response.data)
 
             })
-            .catch(reason => console.error(reason))
+            .catch((error) => toast.error("Unknown User!" + error))
     }
 
     function logout() {
-        return axios.post("api/user/logout")
+        return axios.post("/api/user/logout")
             .then(() => {
                 setUser(undefined)
             })
