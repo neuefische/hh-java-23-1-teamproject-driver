@@ -62,5 +62,13 @@ export default function useDeliveries() {
             .catch(reason => console.error(reason))
     }
 
-    return {message, delivery, deliveries, environmentName, loadDeliveryById,  addDelivery, updateDelivery}
+    function deleteDelivery(id:string){
+        axios.delete("/api/deliveries/" + id)
+            .then(()=>{
+                setDeliveries(deliveries.filter((delivery)=> delivery.id !== id))
+            })
+            .catch(console.error)
+    }
+
+    return {message, delivery, deliveries, environmentName, loadDeliveryById,  addDelivery, updateDelivery, deleteDelivery}
 }

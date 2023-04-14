@@ -25,8 +25,7 @@ public class DeliveryController {
     public Delivery getDeliveryById(@PathVariable String id) {
         try {
             return deliveryService.getDeliveryById(id);
-        }
-        catch (NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -44,5 +43,14 @@ public class DeliveryController {
         }
 
         return deliveryService.updateDelivery(delivery);
+    }
+
+    @DeleteMapping("/{id}")
+    void deleteDeliveryById(@PathVariable String id) {
+        try {
+            deliveryService.deleteDeliveryById(id);
+        } catch (NoSuchElementException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 }

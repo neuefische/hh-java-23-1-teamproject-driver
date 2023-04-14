@@ -33,4 +33,11 @@ public class DeliveryService {
     public Delivery updateDelivery(Delivery delivery) {
         return deliveryRepo.save(delivery);
     }
+
+    public void deleteDeliveryById(String id) {
+        if (deliveryRepo.existsById(id)) {
+            deliveryRepo.deleteById(id);
+        }
+        else throw new NoSuchElementException();
+    }
 }

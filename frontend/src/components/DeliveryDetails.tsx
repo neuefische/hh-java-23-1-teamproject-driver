@@ -3,11 +3,13 @@ import React, {useEffect} from "react";
 import {DeliveryModel} from "../models/DeliveryModel";
 import {useNavigate, useParams} from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 type DetailsProps = {
     loadDeliveryById: (id: string) => void;
     delivery: DeliveryModel,
-    message: string
+    message: string,
+    deleteDelivery: (id: string) => void
 }
 export default function DeliveryDetails(props: DetailsProps) {
     // const [message, setMessage] = useState("")
@@ -21,6 +23,11 @@ export default function DeliveryDetails(props: DetailsProps) {
         //eslint-disable-next-line
     }, [id]);
 
+    function onDeleteClick() {
+        props.deleteDelivery(props.delivery.id)
+        navigate("/home")
+    }
+
     return (
         <Container maxWidth="lg">
             <Box sx={{bgcolor: '#efebe9', p: "1rem", pb: "3rem"}}>
@@ -28,7 +35,7 @@ export default function DeliveryDetails(props: DetailsProps) {
                     Delivery Details
                 </Typography>
                 {props.delivery ?
-                    <Card variant="outlined" sx={{p: "0.3rem"}}>
+                    <Card variant="outlined" sx={{p: "0.8rem"}}>
                         <small>ID: {props.delivery.id}</small>
                         <p>Title: {props.delivery.title}</p>
                         <ButtonGroup sx={{display: "flex", justifyContent: "space-between"}} variant="text"
@@ -37,6 +44,7 @@ export default function DeliveryDetails(props: DetailsProps) {
                                     onClick={() => navigate(`/home`)}>Back</Button>
                             <Button className="button" variant="contained" endIcon={<EditIcon/>}
                                     onClick={() => navigate(`/edit/${props.delivery.id}`)}>Edit</Button>
+                            <Button color="error" endIcon={<DeleteIcon/>} onClick={onDeleteClick}>Delete</Button>
                         </ButtonGroup>
 
                     </Card>

@@ -18,7 +18,8 @@ function App() {
         environmentName,
         loadDeliveryById,
         addDelivery,
-        updateDelivery
+        updateDelivery,
+        deleteDelivery
     } = useDeliveries()
 
     return (
@@ -31,7 +32,7 @@ function App() {
                                <LandingPage environmentName={environmentName}/>}/>
                     <Route path="/home"
                            element={
-                               <Gallery deliveries={deliveries}/>}/>
+                               <Gallery deliveries={deliveries} deleteDelivery={deleteDelivery}/>}/>
                     <Route path="/add"
                            element={
                                <AddDelivery isEditMode={false}
@@ -41,6 +42,7 @@ function App() {
                            element={
                                <DeliveryDetails message={message}
                                                 delivery={delivery}
+                                                deleteDelivery={deleteDelivery}
                                                 loadDeliveryById={loadDeliveryById}/>}/>
                     <Route path="/edit/:id"
                            element={
