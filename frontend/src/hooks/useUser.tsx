@@ -11,7 +11,7 @@ export default function useUser() {
                 setUser(response.data)
 
             })
-            .catch((error) => toast.error("Unknown User!" + error))
+            .catch((error) => toast.error("Unknown User! " + error))
     }
 
     function logout() {

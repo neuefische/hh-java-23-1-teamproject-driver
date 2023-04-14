@@ -22,8 +22,6 @@ class UserControllerTest {
     @WithMockUser(username = "testUser")
     void login_shouldReturnUser() throws Exception {
         mockMvc.perform(post("/api/user/login")
-                        //  .contentType(String.valueOf("testUser"))
-                        // .content("testUser")
                         .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().string("testUser"));
@@ -33,12 +31,16 @@ class UserControllerTest {
     @WithMockUser(username = "testUser")
     void login_shouldFail_whenUserIsUnauthorized() throws Exception {
         mockMvc.perform(post("/api/user/login"))
-                // .with(csrf())
-                .andExpect(status().isForbidden());
-
+                .andExpect(status().isForbidden())
+                .andExpect(content().string(""));
     }
 
     @Test
-    void logout() {
+    @WithMockUser(username = "testUser")
+    void logout_shouldLogoutUser() throws Exception {
+        mockMvc.perform(post("/api/user/logout")
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().string(""));
     }
 }
