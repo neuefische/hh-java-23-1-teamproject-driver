@@ -15,7 +15,7 @@ import LandingPage from "./components/LandingPage";
 
 function App() {
     const {user, login, logout} = useUser()
-    const {message, delivery, deliveries, environmentName, loadDeliveries, loadDeliveryById, updateDelivery, deleteDelivery} = useDeliveries()
+    const {message, delivery, deliveries, environmentName, loadDeliveries, loadDeliveryById, addDelivery, updateDelivery, deleteDelivery} = useDeliveries()
 
 
     return (

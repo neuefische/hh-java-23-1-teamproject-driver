@@ -70,5 +70,5 @@ export default function useDeliveries() {
             .catch(console.error)
     }
 
-    return {message, delivery, deliveries, environmentName, loadDeliveryById,  addDelivery, updateDelivery, deleteDelivery}
+    return {message, delivery, deliveries, environmentName, loadDeliveries,  loadDeliveryById,  addDelivery, updateDelivery, deleteDelivery}
 }
