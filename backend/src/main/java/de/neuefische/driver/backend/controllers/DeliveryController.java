@@ -4,12 +4,9 @@ import de.neuefische.driver.backend.models.Delivery;
 import de.neuefische.driver.backend.services.DeliveryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/deliveries")
@@ -24,11 +21,7 @@ public class DeliveryController {
 
     @GetMapping("/{id}")
     public Delivery getDeliveryById(@PathVariable String id) {
-        try {
-            return deliveryService.getDeliveryById(id);
-        } catch (NoSuchElementException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+        return deliveryService.getDeliveryById(id);
     }
 
     @PostMapping
@@ -40,7 +33,7 @@ public class DeliveryController {
     public Delivery updateDelivery(@PathVariable String id, @RequestBody Delivery delivery) {
         if (!id.equals(delivery.id())) {
             String message = "Id '" + id + "' doesn't match with delivery-id '" + delivery.id() + "'";
-            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, message);
+            throw new IllegalArgumentException(message);
         }
 
         return deliveryService.updateDelivery(delivery);
@@ -48,10 +41,10 @@ public class DeliveryController {
 
     @DeleteMapping("/{id}")
     void deleteDeliveryById(@PathVariable String id) {
-        try {
-            deliveryService.deleteDeliveryById(id);
-        } catch (NoSuchElementException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        if (id.equals("")) {
+            throw new IllegalArgumentException("id is empty");
         }
+
+        deliveryService.deleteDeliveryById(id);
     }
 }

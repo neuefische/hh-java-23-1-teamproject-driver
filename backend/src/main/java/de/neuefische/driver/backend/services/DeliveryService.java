@@ -31,13 +31,15 @@ public class DeliveryService {
     }
 
     public Delivery updateDelivery(Delivery delivery) {
-        return deliveryRepo.save(delivery);
+        if (deliveryRepo.existsById(delivery.id())) {
+            return deliveryRepo.save(delivery);
+        }
+        throw new NoSuchElementException("Couldn't update delivery. Id " + delivery.id() + " doesn't exist");
     }
 
     public void deleteDeliveryById(String id) {
         if (deliveryRepo.existsById(id)) {
             deliveryRepo.deleteById(id);
-        }
-        else throw new NoSuchElementException();
+        } else throw new NoSuchElementException("Couldn't delete delivery. Id " + id + " doesn't exist");
     }
 }
