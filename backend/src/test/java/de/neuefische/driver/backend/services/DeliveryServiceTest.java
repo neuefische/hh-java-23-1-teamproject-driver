@@ -102,6 +102,8 @@ class DeliveryServiceTest {
     @Test
     void updateDelivery_ShouldReturnUpdatedDelivery() {
         Delivery toUpdate = createTestDeliveryInstance();
+        Mockito.when(deliveryRepo.existsById(toUpdate.id()))
+                        .thenReturn(true);
         Mockito.when(deliveryRepo.save(toUpdate))
                 .thenReturn(toUpdate);
 
@@ -109,6 +111,7 @@ class DeliveryServiceTest {
         Delivery expected = createTestDeliveryInstance();
 
         verify(deliveryRepo).save(toUpdate);
+        verify(deliveryRepo).existsById(toUpdate.id());
         assertEquals(expected, actual);
     }
 
