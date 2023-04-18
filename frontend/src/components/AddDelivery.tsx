@@ -9,7 +9,6 @@ type AddDeliveryProps = {
     delivery: DeliveryModel
 }
 export default function AddDelivery(props: AddDeliveryProps) {
-
     const handleSubmit = (title: string) => {
         const deliveryToAdd: NewDeliveryModel = {title: title};
         props.addDelivery(deliveryToAdd);
