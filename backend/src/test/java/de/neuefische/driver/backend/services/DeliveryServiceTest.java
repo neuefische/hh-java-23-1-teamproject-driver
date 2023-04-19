@@ -69,17 +69,16 @@ class DeliveryServiceTest {
 
     @Test
     void getDeliveryById_shouldThrowException_whenInvalidId() {
-        Mockito.when(deliveryRepo.findById(testIdOne))
-                .thenThrow(new NoSuchElementException());
+        String errorMessage = "Delivery with ID '" + testIdOne + "' not found!";
 
-        try {
-            deliveryService.getDeliveryById(testIdOne);
-            fail();
-        } catch (NoSuchElementException e) {
-            assertTrue(true);
-        }
+        Mockito.when(deliveryRepo.findById(testIdOne))
+                .thenThrow(new NoSuchElementException(errorMessage));
+
+        Exception exception = assertThrows(NoSuchElementException.class,
+                () -> deliveryService.getDeliveryById(testIdOne));
 
         verify(deliveryRepo).findById(testIdOne);
+        assertEquals(errorMessage, exception.getMessage());
     }
 
 
@@ -116,6 +115,22 @@ class DeliveryServiceTest {
     }
 
     @Test
+    void updateDelivery_ShouldThrowNoSuchElementException_whenIdNotExist() {
+        Delivery toUpdate = createTestDeliveryInstance();
+        Mockito.when(deliveryRepo.existsById(toUpdate.id()))
+                .thenReturn(false);
+
+        Exception exception = assertThrows(NoSuchElementException.class,
+                () -> deliveryService.updateDelivery(toUpdate));
+
+        verify(deliveryRepo).existsById(toUpdate.id());
+
+        String actual = exception.getMessage();
+        String expected = "Couldn't update delivery. Id " + toUpdate.id() + " doesn't exist";
+        assertEquals(expected, actual);
+    }
+
+    @Test
     void deleteDeliveryById() {
         Mockito.when(deliveryRepo.existsById(testIdOne))
                 .thenReturn(true);
@@ -127,17 +142,17 @@ class DeliveryServiceTest {
 
     @Test
     void deleteDeliveryById_shouldThrowException_whenInvalidId() {
-        // WHEN
-        Mockito.when(deliveryRepo.existsById("123"))
-                .thenThrow((new NoSuchElementException()));
-        try {
-            deliveryService.deleteDeliveryById("123");
-            fail();
-        } catch (NoSuchElementException e) {
-            assertTrue(true);
-        }
-        verify(deliveryRepo).existsById("123");
+        String id = "123";
+        Mockito.when(deliveryRepo.existsById(id))
+                .thenReturn(false);
+
+        Exception exception = assertThrows(NoSuchElementException.class,
+                () -> deliveryService.deleteDeliveryById(id));
+
+        verify(deliveryRepo).existsById(id);
+
+        String actual = exception.getMessage();
+        String expected = "Couldn't delete delivery. Id " + id + " doesn't exist";
+        assertEquals(expected, actual);
     }
-
-
 }

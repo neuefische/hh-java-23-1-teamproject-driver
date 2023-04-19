@@ -41,8 +41,8 @@ public class DeliveryController {
 
     @DeleteMapping("/{id}")
     void deleteDeliveryById(@PathVariable String id) {
-        if (id.equals("")) {
-            throw new IllegalArgumentException("id is empty");
+        if (id.isBlank()) {
+            throw new IllegalArgumentException("Id is empty");
         }
 
         deliveryService.deleteDeliveryById(id);

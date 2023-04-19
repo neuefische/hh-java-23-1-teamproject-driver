@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class DeliveryIntegrationTest {
+
     @Autowired
     MockMvc mockMvc;
 
@@ -39,7 +40,7 @@ class DeliveryIntegrationTest {
 
     @Test
     @WithMockUser
-    void getDeliveryById_shouldThrowException_whenInvalidId() throws Exception {
+    void getDeliveryById_shouldReturnApiErrorAndStatusIsNotFound_whenInvalidId() throws Exception {
         String id = "123";
         String expectedBody = "{ \"message\": \"Delivery with ID '" + id + "' not found!\"}";
 
@@ -123,19 +124,19 @@ class DeliveryIntegrationTest {
 
     @Test
     @WithMockUser
-    void updateDelivery_shouldThrowResponseStatusException_whenBodyIdAndUrlIdAreNotEqual() throws Exception {
-        String idOk = "1";
-        Delivery deliveryToUpdate = new Delivery(idOk, "update");
+    void updateDelivery_shouldReturnApiErrorAndStatusIsUnprocessable_whenBodyIdAndUrlIdAreNotEqual() throws Exception {
+        String bodyId = "1";
+        Delivery deliveryToUpdate = new Delivery(bodyId, "update");
         String deliveryToUpdateJson = objectMapper.writeValueAsString(deliveryToUpdate);
 
-        String idNotOk = "123";
-        String expectedBody = "{ \"message\": \"Id '" + idNotOk + "' doesn't match with delivery-id '" + idOk + "'\"}";
+        String urlId = "123";
+        String expectedBody = "{ \"message\": \"Id '" + urlId + "' doesn't match with delivery-id '" + bodyId + "'\"}";
 
-        mockMvc.perform(put("/api/deliveries/" + idNotOk)
+        mockMvc.perform(put("/api/deliveries/" + urlId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(deliveryToUpdateJson)
                         .with(csrf()))
-                .andExpect(status().isNotFound())
+                .andExpect(status().isUnprocessableEntity())
                 .andExpect(content().json(expectedBody))
                 .andExpect(jsonPath("$.timestamp").isNotEmpty());
     }
@@ -172,13 +173,26 @@ class DeliveryIntegrationTest {
 
     @Test
     @WithMockUser
-    void deleteDelivery_shouldThrowResponseStatusException_whenIdInvalid() throws Exception {
+    void deleteDelivery_shouldReturnApiErrorAndStatusIsNotFound_whenIdNotExist() throws Exception {
         String id = "123";
         String expectedBody = "{ \"message\": \"Couldn't delete delivery. Id " + id + " doesn't exist\"}";
 
         mockMvc.perform(delete("/api/deliveries/" + id)
                         .with(csrf()))
                 .andExpect(status().isNotFound())
+                .andExpect(content().json(expectedBody))
+                .andExpect(jsonPath("$.timestamp").isNotEmpty());
+    }
+
+    @Test
+    @WithMockUser
+    void deleteDelivery_shouldReturnApiErrorAndStatusIsUnprocessable_whenIdIsWhitespace() throws Exception {
+        String id = " ";
+        String expectedBody = "{ \"message\": \"Id is empty\"}";
+
+        mockMvc.perform(delete("/api/deliveries/" + id)
+                        .with(csrf()))
+                .andExpect(status().isUnprocessableEntity())
                 .andExpect(content().json(expectedBody))
                 .andExpect(jsonPath("$.timestamp").isNotEmpty());
     }
